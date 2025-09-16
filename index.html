@@ -2,20 +2,29 @@
 <html lang="en">
 
 <head>
-    <meta name="description" content="A tool giving Mastodon users the ability to see who can censor items on their timeline." />
+    <meta name="description" content="A tool giving Mastodon users the ability to see who controls posts on their timeline" />
     <meta charset="utf-8">
-    <title>Who Can Censor My Timeline?</title>
+    <title>Who Moderates My Posts and Timeline?</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Robert Ricci">
 
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/control.css">
 
     <script type="text/javascript" src="censor-fedi.js"></script>
 </head>
 
 <body>
   
-    <h1>Who Can Censor My Timeline?</h1>
+    <h1>Who Moderates My Posts and Timeline?</h1>
+
+    <div class="overview">
+        <p>
+            Your Mastodon account is subject to moderation on the instance where it resides.
+            Similarly, those you follow and those who follow you are subject to the moderation on their own instances.
+            This tool helps you understand which moderators control what you say and see on the Fediverse.
+        </p>
+    </div>
 
     <noscript>
       <div style="color: red; font-weight: bold; text-align: center">
@@ -23,18 +32,106 @@
       </div>
     </noscript>
 
-    <div>
-      <form>
+    <div class="form">
+      <form class="form" action="javascript:getAccount(document.getElementById('username').value,'debug')">
         <input type="text" id="username" name="username" placeholder="@user@mastodon.instance" width=40>
-        <input type="button" value="Find My Censors" onclick="getAccount(document.getElementById('username').value,'debug')">
+        <input type="button" value="Get Started" onclick="getAccount(document.getElementById('username').value,'debug')">
       </form>
     </div>
 
     <div id="results">
       <div id="loading" style="visibility:hidden">Loading <span id="loadingwhat"></span>...</div>
-      <span id="debug" style="visibility:hidden"></span>
-      <div id="userbox"> </div>
+
+      <div id="you" style="display:none">
+            <h2>You</h2>
+            <p>
+              You have the ability to mute or block <a href="https://docs.joinmastodon.org/user/moderating/#blocking-and-muting">individual users</a>
+              or <a href="https://docs.joinmastodon.org/user/moderating/#block-domain">entire servers</a> from appearing in your feed.
+            </p>
+            <p>
+              You can also <a href="https://docs.joinmastodon.org/user/moderating/#report">report content</a> to the moderators of
+              your own server and/or the server the content originates on. Moderators may or may not choose to act on your report.
+            </p>
+      </div>
+
+      <div id="instanceblock" style="display:none">
+        <h2>Your Server</h2>
+        <div class="sidebyside">
+            <h3><a id="instancelink"></a></h3>
+            <h4><a id="aboutlink"></a></h4>
+            <h4><a id="privlink"></a></h4>
+            <h4><a id="toslink"></a></h4>
+            <table>
+              <tr>
+                <th>Admin Contact</th>
+                <td id="adminacct"></td>
+              </tr>
+              <tr>
+                <th>Email Contact</th>
+                <td id="adminemail"></td>
+              </tr>
+              <tr>
+                <th>Active Users</th>
+                <td id="mau"></td>
+              </tr>
+              <tr>
+                <th>Posts Last Week</th>
+                <td id="weeklyposts"></td>
+              </tr>
+              <tr>
+                <th>Peer Servers</th>
+                <td id="peers"></td>
+              </tr>
+              <tr>
+                <th>New Signups</th>
+                <td id="regstatus"></td>
+              </tr>
+              <tr>
+                <th>Blocked Servers</th>
+                <td id="blockedservers"></td>
+              </tr>
+            </table>
+        </div>
+        <div class="sidebyside">
+            <p>
+                As with all servers, your local administrators can <b>block</b>
+                or <b>suspend</b> your account, and they can <b>delete</b> your posts. They can also <b>block individual users</b>
+                from other instances from appearing on yours or <b>block entire instances</b>.
+            </p>
+            <p>
+                The amount of work your administrators and moderators have to do depends largely on the number of <b>active users</b>
+                on your server and how much they <b>post</b>. Moderation reports regarding your posts can also come in from any of the
+                <b>peer servers</b> across the fediverse.
+            </p>
+        </div>
+      </div>
+
+      <div id="followers" style="display:none">
+            <h2>Your Followers</h2>
+            <p>
+                Your followers are on <span id="followerInstances"></span> different instances. Each of these
+                instances can independently <b>block your account</b> from appearing on their instance, or
+                <b>block your entire instance</b>. The moderators who can cut you off from the largest numbers
+                of your followers are:
+            </p>
+
+             <table>
+                 <thead>
+                    <tr>
+                        <th>Instance</th>
+                        <th>Followers</th>
+                        <th>Percent</th>
+                    </tr>
+                 </thead>
+                 <tbody id="followerbody">
+                 </tbody>
+             </table>
+
+      </div>
+
       <div id="following"> </div>
+
+      <span id="debug" style="visibility:hidden"></span>
     </div>
 
 

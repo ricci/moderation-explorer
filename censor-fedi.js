@@ -1,5 +1,11 @@
-var SEARCH_ENDPOINT = "/api/v2/search";
-var ACCOUNT_ENDPOINT = "/api/v1/accounts/";
+const SEARCH_ENDPOINT = "/api/v2/search";
+const ACCOUNT_ENDPOINT = "/api/v1/accounts/";
+
+const INSTANCE_ENDPOINT = "/api/v2/instance";
+const PEERS_ENDPOINT = "/api/v1/instance/peers";
+const ACTIVITY_ENDPOINT = "/api/v1/instance/activity";
+const RULES_ENDPOINT = "/api/v1/instance/rules";
+const BLOCKS_ENDPOINT = "/api/v1/instance/domain_blocks";
 
 async function fetchAccountRelation({
   baseUrl,
@@ -110,8 +116,80 @@ function splitUsername (username) {
 
 }
 
-function populateProfile(a,username) {
-    const div = document.getElementById("userbox");
+function settext(id,content) {
+    document.getElementById(id).textContent = content;
+}
+
+function setvisible(id) {
+    document.getElementById(id).style.display = "block";
+}
+
+function populateUser() {
+    setvisible("you");
+}
+
+function p(item) {
+    if (! item) {
+        return "not public"
+    } else {
+        return item;
+    }
+}
+
+function populateInstance(instance) {
+
+    console.log(instance);
+
+    const instancelink = document.getElementById("instancelink");
+    instancelink.setAttribute("href","https://" + instance.instance.domain)
+    instancelink.textContent = instance.instance.title;
+
+    if (instance.instance.configuration.urls.about) {
+        const aboutlink = document.getElementById("aboutlink");
+        aboutlink.setAttribute("href",instance.instance.configuration.urls.about)
+        aboutlink.textContent = "About" + (instance.rules? "/Rules" : "");
+    }
+
+    if (instance.instance.configuration.urls.privacy_policy) {
+        const privlink = document.getElementById("privlink");
+        privlink.setAttribute("href",instance.instance.configuration.urls.privacy_policy)
+        privlink.textContent = "Privacy Policy";
+    }
+
+    if (instance.instance.configuration.urls.terms_of_service) {
+        const toslink = document.getElementById("toslink");
+        toslink.setAttribute("href",instance.instance.configuration.urls.terms_of_service)
+        toslink.textContent = "Terms of Service";
+    }
+
+
+    const adminacct = document.getElementById("adminacct");
+    const adminlink = document.createElement("a");
+    adminlink.setAttribute("href",instance.instance.contact.account.url);
+    adminlink.textContent = "@" + instance.instance.contact.account.username + "@" + instance.instance.domain;
+    adminacct.replaceChildren(adminlink);
+
+    const adminemail = document.getElementById("adminemail");
+    const adminemaillink = document.createElement("a");
+    adminemaillink.setAttribute("href","mailto:" + instance.instance.contact.email);
+    adminemaillink.textContent = instance.instance.contact.email;
+    adminemail.replaceChildren(adminemaillink);
+
+    settext("mau",p(instance.instance.usage.users.active_month)); + instance.instance.domain
+    settext("weeklyposts",instance.activity? instance.activity[0].statuses : "not public");
+    settext("peers",instance.peers? instance.peers.length : "not public");
+    settext("blockedservers",instance.blocks? instance.blocks.length : "not public");
+
+    settext("regstatus",instance.instance.registrations.enabled? "enabled" : "disabled");
+
+    setvisible("instanceblock");
+}
+
+function populateProfile(a,username,instance) {
+    const div = document.getElementById("instanceblock");
+    document.getElementById("instance").textContent = instance;
+    div.style.display = "block";
+    /*
     const img = document.createElement("img");
     img.setAttribute("src",a.avatar);
     div.append(img);
@@ -135,6 +213,39 @@ function populateProfile(a,username) {
     followers.setAttribute("class", "followers");
     followers.textContent = "Followers: " + a.followers_count;
     div.append(followers);
+    */
+}
+
+const objectMap = (obj, fn) =>
+  Object.fromEntries(
+    Object.entries(obj).map(
+      ([k, v], i) => [k, fn(v, k, i)]
+    )
+  )
+
+function extract_accts(account_list) {
+    return objectMap(account_list, v => v.acct);
+}
+
+function instance_histogram(account_list) {
+    var map = new Map();
+    account_list.forEach((e) => {
+        const parts = e.split('@');
+        instance = parts[1];
+        if (!map.has(instance)) {
+            map.set(instance,1)
+        } else {
+            map.set(instance,map.get(instance) + 1)
+        }
+    })
+}
+
+function populateFollowers(followers) {
+    accts = extract_accts(followers);
+    hist = instance_histogram(accts);
+
+    var tbody = document.getElementById("followerbody");
+    
 }
 
 function startLoading(what) {
@@ -166,20 +277,46 @@ async function getAccount(id,target) {
     // TODO: Error checking
     const account = result.accounts[0];
     const accountId = account.id;
+    populateUser();
 
-    populateProfile(account,id);
+    const endpoints = [
+        ["instance", INSTANCE_ENDPOINT],
+        ["peers", PEERS_ENDPOINT],
+        ["activity", ACTIVITY_ENDPOINT],
+        ["rules", RULES_ENDPOINT],
+        ["blocks", BLOCKS_ENDPOINT]
+    ];
 
+    const instance = {};
+    for (const [name,endpoint] of endpoints) {
+        startLoading(name);
+        try {
+            const url = "https://" + server + endpoint;
+            const response = await fetch(url);
+            instance[name] = await response.json();
+        } catch {
+        }
+        stopLoading(name);
+    }
+
+
+    populateInstance(instance);
+    //populateProfile(account,id,server);
+
+    /*
     const baseUrl = "https://" + server;
 
     startLoading("followers");
     const followers = await fetchAllFollowers({baseUrl, accountId});
     stopLoading();
     console.log(followers);
+    populateFollowers(followers);
 
     startLoading("following");
     const following = await fetchAllFollowing({baseUrl, accountId});
     stopLoading();
     console.log(following);
+    */
 
   } catch (error) {
     // TODO: Error checking
