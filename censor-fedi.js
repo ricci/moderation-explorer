@@ -14,6 +14,7 @@ async function fetchAccountRelation({
   token,
   limit = 80,
   maxPages = Infinity,
+  //maxPages = 5,
   onPage,
 }) {
   if (!baseUrl || !accountId) throw new Error("baseUrl and accountId are required");
@@ -216,15 +217,10 @@ function populateProfile(a,username,instance) {
     */
 }
 
-const objectMap = (obj, fn) =>
-  Object.fromEntries(
-    Object.entries(obj).map(
-      ([k, v], i) => [k, fn(v, k, i)]
-    )
-  )
-
-function extract_accts(account_list) {
-    return objectMap(account_list, v => v.acct);
+function extract_accts(list) {
+    var accts = [];
+    list.forEach((e) => accts.push(e.acct));
+    return accts;
 }
 
 function instance_histogram(account_list) {
@@ -238,14 +234,37 @@ function instance_histogram(account_list) {
             map.set(instance,map.get(instance) + 1)
         }
     })
+    return new Map([...map.entries()].sort((a, b) => b[1] - a[1]));
 }
 
-function populateFollowers(followers) {
+function populateFollowers(followers,instance) {
+    settext("followercount",followers.length);
     accts = extract_accts(followers);
+    console.log(accts);
     hist = instance_histogram(accts);
+    console.log(hist);
 
-    var tbody = document.getElementById("followerbody");
-    
+    settext("followerservers",hist.size);
+
+    const tbody = document.getElementById("followerbody");
+    var count = 0;
+    for (let [key, value] of hist) {
+        if (!key) {
+            key = instance;
+        }
+        let tr = document.createElement("tr");
+        let th = document.createElement("th");
+        th.textContent = key;
+        let td1 = document.createElement("td");
+        td1.textContent = value;
+        let td2 = document.createElement("td");
+        td2.textContent = (value * 100 / followers.length).toFixed(1);
+        tr.append(th,td1,td2);
+        tbody.appendChild(tr);
+        count++;
+        if (count >= 10) break;
+    }
+    setvisible("followers");
 }
 
 function startLoading(what) {
@@ -262,8 +281,8 @@ function stopLoading(what) {
 
 async function getAccount(id,target) {
   console.log(id);
+  [acct, server] = splitUsername(id);
   try {
-    [acct, server] = splitUsername(id);
 
 
     startLoading("account");
@@ -301,16 +320,16 @@ async function getAccount(id,target) {
 
 
     populateInstance(instance);
-    //populateProfile(account,id,server);
 
-    /*
     const baseUrl = "https://" + server;
 
     startLoading("followers");
     const followers = await fetchAllFollowers({baseUrl, accountId});
     stopLoading();
     console.log(followers);
-    populateFollowers(followers);
+    populateFollowers(followers,server);
+
+    /*
 
     startLoading("following");
     const following = await fetchAllFollowing({baseUrl, accountId});

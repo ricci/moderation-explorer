@@ -107,15 +107,12 @@
       </div>
 
       <div id="followers" style="display:none">
-            <h2>Your Followers</h2>
-            <p>
-                Your followers are on <span id="followerInstances"></span> different instances. Each of these
-                instances can independently <b>block your account</b> from appearing on their instance, or
-                <b>block your entire instance</b>. The moderators who can cut you off from the largest numbers
-                of your followers are:
-            </p>
+        <h2>Your Followers And Their Servers</h2>
 
-             <table>
+        <div class="sidebyside">
+            <h3>You have <span id="followercount"></span> followers
+                on <span id="followerservers"></span> servers</h3>
+            <table>
                  <thead>
                     <tr>
                         <th>Instance</th>
@@ -126,6 +123,18 @@
                  <tbody id="followerbody">
                  </tbody>
              </table>
+        </div>
+
+
+        <div class="sidebyside">
+            <p>
+                Whether or not the accounts that follow you actually see your posts is dependent on the moderation
+                of the individual servers that they are on.
+                Servers can independently <b>block your account</b> from appearing on their instance, or
+                <b>block your entire instance</b>. The more accounts following you on a specific server, the
+                more control that server's administrators and moderators have over whether you can reach their users.
+            </p>
+        </div>
 
       </div>
 
