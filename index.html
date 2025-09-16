@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="description" content="A tool giving Mastodon users the ability to see who can censor items on their timeline." />
+    <meta charset="utf-8">
+    <title>Who Can Censor My Timeline?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Robert Ricci">
+
+    <link rel="stylesheet" href="../css/index.css">
+
+    <script type="text/javascript" src="censor-fedi.js"></script>
+</head>
+
+<body>
+  
+    <h1>Who Can Censor My Timeline?</h1>
+
+    <noscript>
+      <div style="color: red; font-weight: bold; text-align: center">
+        ⚠️ JavaScript is disabled in your browser. Please enable it to use this site properly.
+      </div>
+    </noscript>
+
+    <div>
+      <form>
+        <input type="text" id="username" name="username" placeholder="@user@mastodon.instance" width=40>
+        <input type="button" value="Find My Censors" onclick="getAccount(document.getElementById('username').value,'debug')">
+      </form>
+    </div>
+
+    <div id="results">
+      <div id="loading" style="visibility:hidden">Loading <span id="loadingwhat"></span>...</div>
+      <span id="debug" style="visibility:hidden"></span>
+      <div id="userbox"> </div>
+      <div id="following"> </div>
+    </div>
+
+
+    <script></script>
+  
+</body>
+</html>
