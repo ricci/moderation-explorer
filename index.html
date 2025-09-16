@@ -138,7 +138,39 @@
 
       </div>
 
-      <div id="following"> </div>
+      <div id="following" style="display:none">
+        <h2>Those You Follow And Their Servers</h2>
+
+        <div class="sidebyside">
+            <h3>You follow <span id="followcount"></span> accounts
+                on <span id="followservers"></span> servers</h3>
+            <table>
+                 <thead>
+                    <tr>
+                        <th>Instance</th>
+                        <th>Following</th>
+                        <th>Percent</th>
+                    </tr>
+                 </thead>
+                 <tbody id="followbody">
+                 </tbody>
+             </table>
+        </div>
+
+
+        <div class="sidebyside">
+            <p>
+                Your ability to see posts from the accounts you follow is also
+                 dependent on the moderation of the individual servers that they are on.
+                As with your followers, servers can independently <b>block your account</b> from fetching posts or
+                        <b>block your entire instance</b>. In addition, the accounts you follow may be <b>suspended</b> by the administrators of their servers,
+                        or have their <b>posts deleted</b> by their server's moderators.
+                As with followers, the more accounts you follow on a server, the
+                more control that server's administrators and moderators have over what you see.
+            </p>
+        </div>
+
+      </div>
 
       <span id="debug" style="visibility:hidden"></span>
     </div>

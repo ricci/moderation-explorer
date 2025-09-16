@@ -14,7 +14,7 @@ async function fetchAccountRelation({
   token,
   limit = 80,
   maxPages = Infinity,
-  //maxPages = 5,
+  //maxPages = 2,
   onPage,
 }) {
   if (!baseUrl || !accountId) throw new Error("baseUrl and accountId are required");
@@ -267,6 +267,37 @@ function populateFollowers(followers,instance) {
     setvisible("followers");
 }
 
+function populateFollowing(follows,instance) {
+    settext("followcount",follows.length);
+    accts = extract_accts(follows);
+    console.log(accts);
+    hist = instance_histogram(accts);
+    console.log(hist);
+
+    settext("followservers",hist.size);
+
+    const tbody = document.getElementById("followbody");
+    var count = 0;
+    for (let [key, value] of hist) {
+        if (!key) {
+            key = instance;
+        }
+        let tr = document.createElement("tr");
+        let th = document.createElement("th");
+        th.textContent = key;
+        let td1 = document.createElement("td");
+        td1.textContent = value;
+        let td2 = document.createElement("td");
+        td2.textContent = (value * 100 / follows.length).toFixed(1);
+        tr.append(th,td1,td2);
+        tbody.appendChild(tr);
+        count++;
+        if (count >= 10) break;
+    }
+    setvisible("following");
+}
+
+
 function startLoading(what) {
     elem = document.getElementById("loading");
     document.getElementById("loadingwhat").textContent = what;
@@ -329,13 +360,11 @@ async function getAccount(id,target) {
     console.log(followers);
     populateFollowers(followers,server);
 
-    /*
-
     startLoading("following");
     const following = await fetchAllFollowing({baseUrl, accountId});
     stopLoading();
     console.log(following);
-    */
+    populateFollowing(following,server);
 
   } catch (error) {
     // TODO: Error checking
