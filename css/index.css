@@ -1,0 +1,98 @@
+@font-face {
+  font-family: "Kade-Regular";
+  src: url("../fonts/kade.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  background: #232c3c;
+  color: #e7e9eb;
+  font-family: "Kade-Regular";
+}
+
+a:link, a:visited, a:hover {
+  color: #aebeda;
+  text-decoration: none;
+}
+
+h1, h3, h4, h5, div.container {
+  text-align: center;
+}
+
+h3 {
+  margin-bottom: 6pt;
+  color: #e7e9eb;
+}
+
+h5 {
+  margin-top: 0px;
+  color: #a7a9ab;
+}
+
+div.rating {
+  display: inline-block;
+  text-align: center;
+  width: 300px;
+}
+
+div.gage {
+  width: 270px;
+  margin: -35px 15px;
+  height: 210px;
+}
+
+div.shannon {
+  background: #ffffff0d;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 4px;
+  margin-right: 4px;
+  border: 1px solid #ffffff1d;
+}
+
+div.shannon div.index {
+  font-size: 15pt;
+  margin-bottom: 0.2em;
+}
+
+div.shannon div.index span {
+  color: white;
+  margin-left: 10px;
+}
+
+div.shannon div.icon {
+    margin-top: 0.5em;
+    font-size: 15pt;
+}
+
+div.shannon div.icon img {
+  display: inline;
+  height: 1.5em;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+p {
+  width: 100%;
+  max-width: 440px;
+  text-align: left;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  color: #909296;
+}
+
+th {
+  text-align: left;
+  padding-right: 10px;
+}
+
+td {
+  text-align: right;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+}

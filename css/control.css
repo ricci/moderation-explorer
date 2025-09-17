@@ -1,0 +1,111 @@
+p {
+    color: #ddd;
+}
+
+div#errors {
+  margin-top: 10pt;
+  color: #f00;
+  font-size: 20pt;
+}
+
+div.form {
+    margin-top: 20px;
+    text-align: center;
+}
+
+div#results {
+    text-align: center;
+}
+
+div.container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}
+
+div.loading {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 16pt;
+    text-align: center;
+    display: none;
+    color: #fffd00;
+}
+
+span#instance {
+    font-weight: bold;
+}
+
+h2 {
+    text-align: center;
+}
+
+div#instanceblock h4 {
+    display: inline;
+    margin-right: 6pt;
+    margin-left: 6pt;
+    font-size: 10pt;
+}
+
+table {
+    margin-top: 10pt;
+}
+
+p:first-child {
+    margin-top: 0px;
+}
+
+p:last-child {
+    margin-bottom: 0px;
+}
+
+div.infobox {
+    background: #0003;
+    padding: 12pt;
+    border: 1px solid #0005;
+}
+
+.infobox table {
+    margin-left: 0px;
+    margin-right: 0px;
+    border-collapse: collapse;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #fff1;
+}
+
+thead {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+}
+
+td, th {
+  padding-left: 6pt;
+  padding-right: 6pt;
+  padding-top: 2pt;
+  padding-bottom: 2pt;
+
+}
+
+#followers .infobox table {
+    display: inline-block;
+}
+
+#following .infobox table {
+    display: inline-block;
+}
+
+
+div.infobox h3 {
+    margin-top: 0px;
+}
+
+div#about {
+    margin-top: 30pt;
+    color: #999;
+    font-size: 0.85rem;
+}
