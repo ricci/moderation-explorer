@@ -113,7 +113,7 @@
 
       <div id="followers" style="display:none">
         <h2>Your Followers And Their Servers</h2>
-        <div class="container">
+        <div class="container" id="followersBody">
             <div class="sidebyside infobox">
                 <h3>You have <span id="followercount"></span> followers
                     on <span id="followerservers"></span> servers</h3>
@@ -143,12 +143,15 @@
             </div>
 
           </div>
+        <div class="container" id="followersNone" style="display:none">
+            <p>We didn't find any accounts that are following you - this can happen if you really don't have any followers, or if you have following information on your account set to private.</p>
+        </div>
       </div>
 
       <div id="following" style="display:none">
         <h2>Those You Follow And Their Servers</h2>
 
-        <div class="container">
+        <div class="container" id="followingBody">
           <div class="sidebyside infobox">
               <h3>You follow <span id="followcount"></span> accounts
                   on <span id="followservers"></span> servers</h3>
@@ -174,6 +177,9 @@
               </p>
           </div>
 
+        </div>
+        <div class="container" id="followingNone" style="display:none">
+            <p>We didn't find any accounts that you're following - this can happen if you really don't follow any accounts, or if you have following information on your account set to private.</p>
         </div>
       </div>
 

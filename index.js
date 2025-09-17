@@ -51,57 +51,71 @@ function populateInstance(instance) {
 
 
 function populateFollowers(followers,instance) {
-    settext("followercount",followers.length);
-    accts = extract_accts(followers);
-    hist = instance_histogram(accts);
+    if (followers.length == 0) {
+      const fBody = document.getElementById("followersBody");
+      const fNone = document.getElementById("followersNone");
+      fBody.style.display = "none";
+      fNone.style.display = "block";
+    } else {
+      settext("followercount",followers.length);
+      accts = extract_accts(followers);
+      hist = instance_histogram(accts);
 
-    settext("followerservers",hist.size);
+      settext("followerservers",hist.size);
 
-    const tbody = document.getElementById("followerbody");
-    var count = 0;
-    for (let [key, value] of hist) {
-        if (!key) {
-            key = instance;
-        }
-        let tr = document.createElement("tr");
-        let th = document.createElement("th");
-        th.textContent = key;
-        let td1 = document.createElement("td");
-        td1.textContent = value;
-        let td2 = document.createElement("td");
-        td2.textContent = (value * 100 / followers.length).toFixed(1) + " %";
-        tr.append(th,td1,td2);
-        tbody.appendChild(tr);
-        count++;
-        if (count >= 10) break;
+      const tbody = document.getElementById("followerbody");
+      var count = 0;
+      for (let [key, value] of hist) {
+          if (!key) {
+              key = instance;
+          }
+          let tr = document.createElement("tr");
+          let th = document.createElement("th");
+          th.textContent = key;
+          let td1 = document.createElement("td");
+          td1.textContent = value;
+          let td2 = document.createElement("td");
+          td2.textContent = (value * 100 / followers.length).toFixed(1) + " %";
+          tr.append(th,td1,td2);
+          tbody.appendChild(tr);
+          count++;
+          if (count >= 10) break;
+      }
     }
     setvisible("followers");
 }
 
 function populateFollowing(follows,instance) {
-    settext("followcount",follows.length);
-    accts = extract_accts(follows);
-    hist = instance_histogram(accts);
+    if (follows.length == 0) {
+      const fBody = document.getElementById("followingBody");
+      const fNone = document.getElementById("followingNone");
+      fBody.style.display = "none";
+      fNone.style.display = "block";
+    } else {
+      settext("followcount",follows.length);
+      accts = extract_accts(follows);
+      hist = instance_histogram(accts);
 
-    settext("followservers",hist.size);
+      settext("followservers",hist.size);
 
-    const tbody = document.getElementById("followbody");
-    var count = 0;
-    for (let [key, value] of hist) {
-        if (!key) {
-            key = instance;
-        }
-        let tr = document.createElement("tr");
-        let th = document.createElement("th");
-        th.textContent = key;
-        let td1 = document.createElement("td");
-        td1.textContent = value;
-        let td2 = document.createElement("td");
-        td2.textContent = (value * 100 / follows.length).toFixed(1) + " %";
-        tr.append(th,td1,td2);
-        tbody.appendChild(tr);
-        count++;
-        if (count >= 10) break;
+      const tbody = document.getElementById("followbody");
+      var count = 0;
+      for (let [key, value] of hist) {
+          if (!key) {
+              key = instance;
+          }
+          let tr = document.createElement("tr");
+          let th = document.createElement("th");
+          th.textContent = key;
+          let td1 = document.createElement("td");
+          td1.textContent = value;
+          let td2 = document.createElement("td");
+          td2.textContent = (value * 100 / follows.length).toFixed(1) + " %";
+          tr.append(th,td1,td2);
+          tbody.appendChild(tr);
+          count++;
+          if (count >= 10) break;
+      }
     }
     setvisible("following");
 }
