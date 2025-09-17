@@ -258,7 +258,7 @@ function populateFollowers(followers,instance) {
         let td1 = document.createElement("td");
         td1.textContent = value;
         let td2 = document.createElement("td");
-        td2.textContent = (value * 100 / followers.length).toFixed(1);
+        td2.textContent = (value * 100 / followers.length).toFixed(1) + " %";
         tr.append(th,td1,td2);
         tbody.appendChild(tr);
         count++;
@@ -288,7 +288,7 @@ function populateFollowing(follows,instance) {
         let td1 = document.createElement("td");
         td1.textContent = value;
         let td2 = document.createElement("td");
-        td2.textContent = (value * 100 / follows.length).toFixed(1);
+        td2.textContent = (value * 100 / follows.length).toFixed(1) + " %";
         tr.append(th,td1,td2);
         tbody.appendChild(tr);
         count++;
