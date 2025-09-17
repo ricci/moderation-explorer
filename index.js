@@ -198,5 +198,6 @@ async function getAccount(id) {
     stopLoading();
   }
   populateFollowing(following,server);
+  document.getElementById("coda").style.display = "block";
 
 }
