@@ -19,10 +19,11 @@
     <h1>Who Moderates My Posts and Timeline?</h1>
 
     <div class="overview">
+        <p>Moderation on the Fediverse is decentralized.</p>
         <p>
-            Your Mastodon account is subject to moderation on the instance where it resides.
-            Similarly, those you follow and those who follow you are subject to the moderation on their own instances.
-            This tool helps you understand which moderators control what you say and see on the Fediverse.
+        Your Mastodon account is moderated by the administrators of the server where it resides.
+Likewise, the people you follow—and those who follow you—are subject to the moderation policies of their own servers.
+This tool helps you see which moderators influence what you can say and what you see across the Fediverse.
         </p>
     </div>
 
@@ -34,8 +35,8 @@
 
     <div class="form">
       <form class="form" action="javascript:getAccount(document.getElementById('username').value,'debug')">
-        <input type="text" id="username" name="username" placeholder="@user@mastodon.instance" width=40>
-        <input type="button" value="Get Started" onclick="getAccount(document.getElementById('username').value,'debug')">
+        <input type="text" id="username" name="username" placeholder="@user@mastodon.server" width=50>
+        <input type="button" value="Find Out!" onclick="getAccount(document.getElementById('username').value,'debug')">
       </form>
     </div>
 
@@ -43,133 +44,138 @@
       <div id="loading" style="visibility:hidden">Loading <span id="loadingwhat"></span>...</div>
 
       <div id="you" style="display:none">
-            <h2>You</h2>
-            <p>
-              You have the ability to mute or block <a href="https://docs.joinmastodon.org/user/moderating/#blocking-and-muting">individual users</a>
-              or <a href="https://docs.joinmastodon.org/user/moderating/#block-domain">entire servers</a> from appearing in your feed.
-            </p>
-            <p>
-              You can also <a href="https://docs.joinmastodon.org/user/moderating/#report">report content</a> to the moderators of
-              your own server and/or the server the content originates on. Moderators may or may not choose to act on your report.
-            </p>
+        <h2>It Starts With You</h2>
+        <p>
+          You have the ability to mute or block <a href="https://docs.joinmastodon.org/user/moderating/#blocking-and-muting">individual users</a>
+          or <a href="https://docs.joinmastodon.org/user/moderating/#block-domain">entire servers</a> from appearing in your feed.
+        </p>
+        <p>
+          You can also <a href="https://docs.joinmastodon.org/user/moderating/#report">report content</a> to the moderators of
+          your own server and/or the server the content originates on. Moderators may or may not choose to act on your report.
+        </p>
       </div>
 
       <div id="instanceblock" style="display:none">
         <h2>Your Server</h2>
-        <div class="sidebyside">
-            <h3><a id="instancelink"></a></h3>
-            <h4><a id="aboutlink"></a></h4>
-            <h4><a id="privlink"></a></h4>
-            <h4><a id="toslink"></a></h4>
-            <table>
-              <tr>
-                <th>Admin Contact</th>
-                <td id="adminacct"></td>
-              </tr>
-              <tr>
-                <th>Email Contact</th>
-                <td id="adminemail"></td>
-              </tr>
-              <tr>
-                <th>Active Users</th>
-                <td id="mau"></td>
-              </tr>
-              <tr>
-                <th>Posts Last Week</th>
-                <td id="weeklyposts"></td>
-              </tr>
-              <tr>
-                <th>Peer Servers</th>
-                <td id="peers"></td>
-              </tr>
-              <tr>
-                <th>New Signups</th>
-                <td id="regstatus"></td>
-              </tr>
-              <tr>
-                <th>Blocked Servers</th>
-                <td id="blockedservers"></td>
-              </tr>
-            </table>
-        </div>
-        <div class="sidebyside">
-            <p>
-                As with all servers, your local administrators can <b>block</b>
-                or <b>suspend</b> your account, and they can <b>delete</b> your posts. They can also <b>block individual users</b>
-                from other instances from appearing on yours or <b>block entire instances</b>.
-            </p>
-            <p>
-                The amount of work your administrators and moderators have to do depends largely on the number of <b>active users</b>
-                on your server and how much they <b>post</b>. Moderation reports regarding your posts can also come in from any of the
-                <b>peer servers</b> across the fediverse.
-            </p>
+          <div class="container">
+            <div class="sidebyside infobox serverbox">
+                <h3><a id="instancelink"></a></h3>
+                <h4><a id="aboutlink"></a></h4>
+                <h4><a id="privlink"></a></h4>
+                <h4><a id="toslink"></a></h4>
+                <table>
+                  <tr>
+                    <th>Admin Contact</th>
+                    <td id="adminacct"></td>
+                  </tr>
+                  <tr>
+                    <th>Email Contact</th>
+                    <td id="adminemail"></td>
+                  </tr>
+                  <tr>
+                    <th>Active Users</th>
+                    <td id="mau"></td>
+                  </tr>
+                  <tr>
+                    <th>Posts Last Week</th>
+                    <td id="weeklyposts"></td>
+                  </tr>
+                  <tr>
+                    <th>Peer Servers</th>
+                    <td id="peers"></td>
+                  </tr>
+                  <tr>
+                    <th>New Signups</th>
+                    <td id="regstatus"></td>
+                  </tr>
+                  <tr>
+                    <th>Blocked Servers</th>
+                    <td id="blockedservers"></td>
+                  </tr>
+                </table>
+            </div>
+            <div class="sidebyside">
+                <p>
+                    As with all servers, your local administrators can <b>block</b>
+                    or <b>suspend</b> your account, and they can <b>delete</b> your posts. They can also <b>block individual users</b>
+                    from other servers from appearing on yours or <b>block entire servers</b>.
+                </p>
+                <p>
+                    The amount of work your administrators and moderators have to do depends largely on the number of <b>active users</b>
+                    on your server and how much they <b>post</b>. Moderation reports regarding your posts can also come in from any of the
+                    <b>peer servers</b> across the fediverse.
+                </p>
+            </div>
         </div>
       </div>
 
       <div id="followers" style="display:none">
         <h2>Your Followers And Their Servers</h2>
+        <div class="container">
+            <div class="sidebyside infobox">
+                <h3>You have <span id="followercount"></span> followers
+                    on <span id="followerservers"></span> servers</h3>
+                <table>
+                     <thead>
+                        <tr>
+                            <th>Server</th>
+                            <th>Followers</th>
+                            <th>Percent</th>
+                        </tr>
+                     </thead>
+                     <tbody id="followerbody">
+                     </tbody>
+                 </table>
+            </div>
 
-        <div class="sidebyside">
-            <h3>You have <span id="followercount"></span> followers
-                on <span id="followerservers"></span> servers</h3>
-            <table>
-                 <thead>
-                    <tr>
-                        <th>Instance</th>
-                        <th>Followers</th>
-                        <th>Percent</th>
-                    </tr>
-                 </thead>
-                 <tbody id="followerbody">
-                 </tbody>
-             </table>
-        </div>
 
+            <div class="sidebyside">
+                <p>
+                    Whether or not the accounts that follow you actually see your posts is dependent on the moderation
+                    of the individual servers that they are on.
+                    Servers can independently <b>block your account</b> from appearing on their server, or
+                    <b>block your entire server</b>. The more accounts following you on a specific server, the
+                    more control that server's administrators and moderators have over whether you can reach their users.
+                </p>
+            </div>
 
-        <div class="sidebyside">
-            <p>
-                Whether or not the accounts that follow you actually see your posts is dependent on the moderation
-                of the individual servers that they are on.
-                Servers can independently <b>block your account</b> from appearing on their instance, or
-                <b>block your entire instance</b>. The more accounts following you on a specific server, the
-                more control that server's administrators and moderators have over whether you can reach their users.
-            </p>
-        </div>
-
+          </div>
       </div>
 
       <div id="following" style="display:none">
         <h2>Those You Follow And Their Servers</h2>
 
-        <div class="sidebyside">
-            <h3>You follow <span id="followcount"></span> accounts
-                on <span id="followservers"></span> servers</h3>
-            <table>
-                 <thead>
-                    <tr>
-                        <th>Instance</th>
-                        <th>Following</th>
-                        <th>Percent</th>
-                    </tr>
-                 </thead>
-                 <tbody id="followbody">
-                 </tbody>
-             </table>
+        <div class="container">
+          <div class="sidebyside infobox">
+              <h3>You follow <span id="followcount"></span> accounts
+                  on <span id="followservers"></span> servers</h3>
+              <table>
+                   <thead>
+                      <tr>
+                          <th>Server</th>
+                          <th>Following</th>
+                          <th>Percent</th>
+                      </tr>
+                   </thead>
+                   <tbody id="followbody">
+                   </tbody>
+               </table>
+          </div>
+
+
+          <div class="sidebyside">
+              <p>
+                  Your ability to see posts from the accounts you follow is also
+                   dependent on the moderation of the individual servers that they are on.
+                  As with your followers, servers can independently <b>block your account</b> from fetching posts or
+                          <b>block your entire server</b>. In addition, the accounts you follow may be <b>suspended</b> by the administrators of their servers,
+                          or have their <b>posts deleted</b> by their server's moderators.
+                  As with followers, the more accounts you follow on a server, the
+                  more control that server's administrators and moderators have over what you see.
+              </p>
+          </div>
+
         </div>
-
-
-        <div class="sidebyside">
-            <p>
-                Your ability to see posts from the accounts you follow is also
-                 dependent on the moderation of the individual servers that they are on.
-                As with your followers, servers can independently <b>block your account</b> from fetching posts or
-                        <b>block your entire instance</b>. In addition, the accounts you follow may be <b>suspended</b> by the administrators of their servers,
-                        or have their <b>posts deleted</b> by their server's moderators.
-                As with followers, the more accounts you follow on a server, the
-                more control that server's administrators and moderators have over what you see.
-            </p>
-        </div>
-
       </div>
 
       <span id="debug" style="visibility:hidden"></span>
