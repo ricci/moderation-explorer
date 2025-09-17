@@ -1,3 +1,35 @@
+// Mastodon API endpoints
+const SEARCH_ENDPOINT = "/api/v2/search";
+const ACCOUNT_ENDPOINT = "/api/v1/accounts/";
+const INSTANCE_ENDPOINT = "/api/v2/instance";
+const PEERS_ENDPOINT = "/api/v1/instance/peers";
+const ACTIVITY_ENDPOINT = "/api/v1/instance/activity";
+const RULES_ENDPOINT = "/api/v1/instance/rules";
+const BLOCKS_ENDPOINT = "/api/v1/instance/domain_blocks";
+
+// Split a username in the form user@domain or @user@domain
+// into parts; throws an error if username is not in the
+// correct form
+function splitUsername (username) {
+  const parts = username.split('@');
+  if (parts.length == 2) {
+    // user@domain form
+    if (parts[0] && parts[1]) {
+      return [parts[0], parts[1]];
+    }
+  } else if (parts.length == 3) {
+    // @user@domain form
+    if ((!parts[0]) && parts[1] && parts[2]) {
+      return [parts[1], parts[2]];
+    }
+  }
+  
+  throw new Error("Username " + username + " not in correct form");
+}
+
+
+// Code for fetching followers/following - paginates, retries, tries to play
+// nice with rate limits, all that stuff
 async function fetchAccountRelation({
   baseUrl,
   accountId,

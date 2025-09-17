@@ -1,38 +1,5 @@
-const SEARCH_ENDPOINT = "/api/v2/search";
-const ACCOUNT_ENDPOINT = "/api/v1/accounts/";
-
-const INSTANCE_ENDPOINT = "/api/v2/instance";
-const PEERS_ENDPOINT = "/api/v1/instance/peers";
-const ACTIVITY_ENDPOINT = "/api/v1/instance/activity";
-const RULES_ENDPOINT = "/api/v1/instance/rules";
-const BLOCKS_ENDPOINT = "/api/v1/instance/domain_blocks";
-
-
-function splitUsername (username) {
-  // TODO: Error checking
-  const parts = username.split('@');
-  return [parts[1], parts[2]];
-
-}
-
-function settext(id,content) {
-    document.getElementById(id).textContent = content;
-}
-
-function setvisible(id) {
-    document.getElementById(id).style.display = "block";
-}
-
 function populateUser() {
     setvisible("you");
-}
-
-function p(item) {
-    if (! item) {
-        return "not public"
-    } else {
-        return item;
-    }
 }
 
 function populateInstance(instance) {
@@ -74,7 +41,7 @@ function populateInstance(instance) {
     adminemaillink.textContent = instance.instance.contact.email;
     adminemail.replaceChildren(adminemaillink);
 
-    settext("mau",p(instance.instance.usage.users.active_month)); + instance.instance.domain
+    settext("mau",instance.instance.usage.users.active_month ? instance.instance.usage.users.active_month : "not public"); + instance.instance.domain
     settext("weeklyposts",instance.activity? instance.activity[0].statuses : "not public");
     settext("peers",instance.peers? instance.peers.length : "not public");
     settext("blockedservers",instance.blocks? instance.blocks.length : "not public");
@@ -84,56 +51,6 @@ function populateInstance(instance) {
     setvisible("instanceblock");
 }
 
-function populateProfile(a,username,instance) {
-    const div = document.getElementById("instanceblock");
-    document.getElementById("instance").textContent = instance;
-    div.style.display = "block";
-    /*
-    const img = document.createElement("img");
-    img.setAttribute("src",a.avatar);
-    div.append(img);
-
-    var name = document.createElement("span");
-    name.setAttribute("class","displayname");
-    name.textContent = a.display_name;
-    div.append(name);
-
-    var username = document.createElement("span");
-    username.setAttribute("class","username");
-    username.textContent = username;
-    div.append(username);
-
-    var following = document.createElement("span");
-    following.setAttribute("class", "following");
-    following.textContent = "Following: " + a.following_count;
-    div.append(following);
-
-    var followers = document.createElement("span");
-    followers.setAttribute("class", "followers");
-    followers.textContent = "Followers: " + a.followers_count;
-    div.append(followers);
-    */
-}
-
-function extract_accts(list) {
-    var accts = [];
-    list.forEach((e) => accts.push(e.acct));
-    return accts;
-}
-
-function instance_histogram(account_list) {
-    var map = new Map();
-    account_list.forEach((e) => {
-        const parts = e.split('@');
-        instance = parts[1];
-        if (!map.has(instance)) {
-            map.set(instance,1)
-        } else {
-            map.set(instance,map.get(instance) + 1)
-        }
-    })
-    return new Map([...map.entries()].sort((a, b) => b[1] - a[1]));
-}
 
 function populateFollowers(followers,instance) {
     settext("followercount",followers.length);
