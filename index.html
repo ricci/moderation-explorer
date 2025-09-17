@@ -44,7 +44,7 @@
     <div id="results">
       <div id="errors" style="display:none"></span></div>
 
-      <div id="loading" style="visibility:hidden">Loading <span id="loadingwhat"></span>...</div>
+      <div class="loading" id="loadingAccount">Loading Account ...</div>
 
       <div id="you" style="display:none">
         <h2>It Starts With You</h2>
@@ -57,6 +57,8 @@
           your own server and/or the server the content originates on. Moderators may or may not choose to act on your report.
         </p>
       </div>
+
+      <div class="loading" id="loadingServer">Loading Server Information ...</div>
 
       <div id="instanceblock" style="display:none">
         <h2>Your Server</h2>
@@ -111,6 +113,8 @@
         </div>
       </div>
 
+      <div class="loading" id="loadingFollowers">Loading Followers ...</div>
+
       <div id="followers" style="display:none">
         <h2>Your Followers And Their Servers</h2>
         <div class="container" id="followersBody">
@@ -148,6 +152,8 @@
         </div>
       </div>
 
+      <div class="loading" id="loadingFollows">Loading Followed Accounts ...</div>
+
       <div id="following" style="display:none">
         <h2>Those You Follow And Their Servers</h2>
 
@@ -183,7 +189,7 @@
         </div>
       </div>
 
-    <div class="coda">
+    <div id="coda" style="display:none">
         <h2>Decentralized Moderation</h2>
         <p>
            Moderation is a difficult task, and many decisions regarding what content meets community standards are inherently subjective.

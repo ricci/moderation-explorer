@@ -122,14 +122,13 @@ function populateFollowing(follows,instance) {
 
 
 function startLoading(what) {
-    elem = document.getElementById("loading");
-    document.getElementById("loadingwhat").textContent = what;
-    elem.style.visibility = "visible";
+    elem = document.getElementById(what);
+    elem.style.display = "block";
 }
 
 function stopLoading(what) {
-    elem = document.getElementById("loading");
-    elem.style.visibility = "hidden";
+    elem = document.getElementById(what);
+    elem.style.display = "none";
 }
 
 
@@ -144,7 +143,7 @@ async function getAccount(id) {
     return;
   }
 
-  startLoading("account");
+  startLoading("loadingAccount");
   try {
     const url = "https://" + server + SEARCH_ENDPOINT + '?type=accounts&resolve=false&limit=1&q=' + id;
     const response = await fetch(url);
@@ -156,7 +155,7 @@ async function getAccount(id) {
     errDiv.textContent = "Error fetching account";
     return;
   }
-  stopLoading();
+  stopLoading("loadingAccount");
 
   // If we got this far we'll hide the search box
   document.getElementById("inputform").style.display = "none";
@@ -172,8 +171,8 @@ async function getAccount(id) {
   ];
 
   const instance = {};
+  startLoading("loadingServer");
   for (const [name,endpoint] of endpoints) {
-      startLoading(name);
       try {
           const url = "https://" + server + endpoint;
           const response = await fetch(url);
@@ -181,8 +180,8 @@ async function getAccount(id) {
       } catch {
           // We let these go, because some servers reject certain endpoints
       }
-      stopLoading(name);
   }
+  stopLoading("loadingServer");
 
 
   populateInstance(instance);
@@ -190,26 +189,26 @@ async function getAccount(id) {
   const baseUrl = "https://" + server;
 
   try {
-    startLoading("followers");
+    startLoading("loadingFollowers");
     var followers = await fetchAllFollowers({baseUrl, accountId});
   } catch (error) {
     errDiv.style.display = "block";
     errDiv.textContent = "Can't fetch followers: " + error;
     return;
   } finally {
-    stopLoading();
+    stopLoading("loadingFollowers");
   }
   populateFollowers(followers,server);
 
   try {
-    startLoading("following");
+    startLoading("loadingFollows");
     var following = await fetchAllFollowing({baseUrl, accountId});
   } catch (error) {
     errDiv.style.display = "block";
     errDiv.textContent = "Can't fetch following: " + error;
     return;
   } finally {
-    stopLoading();
+    stopLoading("loadingFollows");
   }
   populateFollowing(following,server);
   document.getElementById("coda").style.display = "block";
