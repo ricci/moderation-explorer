@@ -35,7 +35,7 @@ This tool helps you see which moderators influence what you can say and what you
       </div>
     </noscript>
 
-    <div class="form">
+    <div class="form" id="inputform">
       <form class="form" action="javascript:getAccount(document.getElementById('username').value,'debug')">
         <input type="text" id="username" name="username" placeholder="@user@mastodon.server" width=50>
         <input type="button" value="Find Out!" onclick="getAccount(document.getElementById('username').value,'debug')">
@@ -43,6 +43,8 @@ This tool helps you see which moderators influence what you can say and what you
     </div>
 
     <div id="results">
+      <div id="errors" style="display:none"></span></div>
+
       <div id="loading" style="visibility:hidden">Loading <span id="loadingwhat"></span>...</div>
 
       <div id="you" style="display:none">

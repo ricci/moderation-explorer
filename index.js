@@ -4,8 +4,6 @@ function populateUser() {
 
 function populateInstance(instance) {
 
-    console.log(instance);
-
     const instancelink = document.getElementById("instancelink");
     instancelink.setAttribute("href","https://" + instance.instance.domain)
     instancelink.textContent = instance.instance.title;
@@ -55,9 +53,7 @@ function populateInstance(instance) {
 function populateFollowers(followers,instance) {
     settext("followercount",followers.length);
     accts = extract_accts(followers);
-    console.log(accts);
     hist = instance_histogram(accts);
-    console.log(hist);
 
     settext("followerservers",hist.size);
 
@@ -85,9 +81,7 @@ function populateFollowers(followers,instance) {
 function populateFollowing(follows,instance) {
     settext("followcount",follows.length);
     accts = extract_accts(follows);
-    console.log(accts);
     hist = instance_histogram(accts);
-    console.log(hist);
 
     settext("followservers",hist.size);
 
@@ -125,64 +119,84 @@ function stopLoading(what) {
 }
 
 
-async function getAccount(id,target) {
-  console.log(id);
-  [acct, server] = splitUsername(id);
+async function getAccount(id) {
+  errDiv = document.getElementById("errors");
+  errDiv.style.display = "none";
   try {
+    [acct, server] = splitUsername(id);
+  } catch (error) {
+    errDiv.style.display = "block";
+    errDiv.textContent = error;
+    return;
+  }
 
-
-    startLoading("account");
-    // TODO need a way to make sure it's only search the account field, not description etc.
+  startLoading("account");
+  try {
     const url = "https://" + server + SEARCH_ENDPOINT + '?type=accounts&resolve=false&limit=1&q=' + id;
     const response = await fetch(url);
     const result = await response.json();
-    stopLoading();
-
-    document.getElementById(target).textContent = JSON.stringify(result,null,4);
-    // TODO: Error checking
     const account = result.accounts[0];
-    const accountId = account.id;
-    populateUser();
-
-    const endpoints = [
-        ["instance", INSTANCE_ENDPOINT],
-        ["peers", PEERS_ENDPOINT],
-        ["activity", ACTIVITY_ENDPOINT],
-        ["rules", RULES_ENDPOINT],
-        ["blocks", BLOCKS_ENDPOINT]
-    ];
-
-    const instance = {};
-    for (const [name,endpoint] of endpoints) {
-        startLoading(name);
-        try {
-            const url = "https://" + server + endpoint;
-            const response = await fetch(url);
-            instance[name] = await response.json();
-        } catch {
-        }
-        stopLoading(name);
-    }
-
-
-    populateInstance(instance);
-
-    const baseUrl = "https://" + server;
-
-    startLoading("followers");
-    const followers = await fetchAllFollowers({baseUrl, accountId});
-    stopLoading();
-    console.log(followers);
-    populateFollowers(followers,server);
-
-    startLoading("following");
-    const following = await fetchAllFollowing({baseUrl, accountId});
-    stopLoading();
-    console.log(following);
-    populateFollowing(following,server);
-
+    var accountId = account.id;
   } catch (error) {
-    // TODO: Error checking
-    console.error(error.message);
+    errDiv.style.display = "block";
+    errDiv.textContent = "Error fetching account";
+    return;
   }
+  stopLoading();
+
+  // If we got this far we'll hide the search box
+  document.getElementById("inputform").style.display = "none";
+
+  populateUser();
+
+  const endpoints = [
+      ["instance", INSTANCE_ENDPOINT],
+      ["peers", PEERS_ENDPOINT],
+      ["activity", ACTIVITY_ENDPOINT],
+      ["rules", RULES_ENDPOINT],
+      ["blocks", BLOCKS_ENDPOINT]
+  ];
+
+  const instance = {};
+  for (const [name,endpoint] of endpoints) {
+      startLoading(name);
+      try {
+          const url = "https://" + server + endpoint;
+          const response = await fetch(url);
+          instance[name] = await response.json();
+      } catch {
+          // We let these go, because some servers reject certain endpoints
+      }
+      stopLoading(name);
+  }
+
+
+  populateInstance(instance);
+
+  const baseUrl = "https://" + server;
+
+  try {
+    startLoading("followers");
+    var followers = await fetchAllFollowers({baseUrl, accountId});
+  } catch (error) {
+    errDiv.style.display = "block";
+    errDiv.textContent = "Can't fetch followers: " + error;
+    return;
+  } finally {
+    stopLoading();
+  }
+  populateFollowers(followers,server);
+
+  try {
+    startLoading("following");
+    var following = await fetchAllFollowing({baseUrl, accountId});
+  } catch (error) {
+    errDiv.style.display = "block";
+    errDiv.textContent = "Can't fetch following: " + error;
+    return;
+  } finally {
+    stopLoading();
+  }
+  populateFollowing(following,server);
+
 }
