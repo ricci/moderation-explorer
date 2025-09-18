@@ -33,6 +33,14 @@ function populateInstance(instance) {
     instancelink.setAttribute("href","https://" + instance.instance.domain)
     instancelink.textContent = instance.instance.title;
 
+    if (instance.instance.domain == "discuss.systems") {
+        document.getElementById("thumbnail").style.display="inline-block";
+        document.getElementById("thumbnail").src = "img/miso.png";
+    } else if (instance.instance.thumbnail) {
+        document.getElementById("thumbnail").style.display="inline-block";
+        document.getElementById("thumbnail").src = instance.instance.thumbnail.url;
+    }
+
     if (instance.instance.configuration.urls.about) {
         const aboutlink = document.getElementById("aboutlink");
         aboutlink.setAttribute("href",instance.instance.configuration.urls.about)

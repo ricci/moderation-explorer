@@ -117,6 +117,10 @@ div#about {
     font-size: 0.85rem;
 }
 
+img.thumbnail {
+    height: 60px;
+}
+
 div#followersNone p, div#followingNone p {
     color: yellow;
 }
