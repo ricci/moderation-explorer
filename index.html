@@ -42,8 +42,10 @@
         <input type="text" id="username" name="username" placeholder="@user@mastodon.server" width=50>
             <input type="button" value="Find Out!" onclick="getAccount(document.getElementById('username').value,document.getElementById('token').value)"> <a href="#" onclick="javascript:document.getElementById('advanced').style.display='block'; return 0;">(advanced)</a>
         <div class="container"><div id="advanced" class="infobox" style="display:none">
-            <h4>Access Token</h4>
-            <p>If you have your followers hidden on your account, this tool can only see them with an access token. To create a token, go to "Preferences", "Development", "New Application" in the Mastodon web interface. Pick any name, and give the token "Read" access to your account. Click "Submit", then click on the name of your new application. Cut and paste "Your access token" into this box.
+            <h4>Advanced Mode: Access Token</h4>
+            <p>Advanced Mode authenticates you to your server and adds two features: it allows the tool to see your social graph even if you have set it to private,
+               and it adds more detailed statistics based on the posts in your feed in the last day.</p>
+            <p>To create a token, in the Mastodon web interface go to "Preferences", "Development", "New Application." Pick any name, and give the token "Read" access to your account. Click "Submit", then click on the name of your new application. Cut and paste "Your access token" into this box.
             </p>
             <p> 
                 The reason for this complicated process is that this tool is unable to support the OAuth flows supported by Mastodon
