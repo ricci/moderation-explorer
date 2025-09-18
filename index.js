@@ -139,12 +139,18 @@ async function getAccount(id,token) {
   errDiv = document.getElementById("errors");
   errDiv.style.display = "none";
   try {
-    [acct, server] = splitUsername(id);
+    [acct, domain] = splitUsername(id);
   } catch (error) {
     errDiv.style.display = "block";
     errDiv.textContent = "Enter a Fediverse handle in @user@domain format"
     return;
   }
+
+  // Check for webfinger to see if the actual API is somewhere else
+  startLoading("Webfinger");
+  const server = await resolveWebfingerHost(domain);
+  stopLoading();
+
 
   if (token) {
       startLoading("Authorization");
@@ -216,7 +222,7 @@ async function getAccount(id,token) {
   } finally {
     stopLoading();
   }
-  populateFollowers(followers,server);
+  populateFollowers(followers,domain);
 
   try {
     startLoading("Follows");
@@ -228,7 +234,7 @@ async function getAccount(id,token) {
   } finally {
     stopLoading();
   }
-  populateFollowing(following,server);
+  populateFollowing(following,domain);
   document.getElementById("coda").style.display = "block";
 
 }

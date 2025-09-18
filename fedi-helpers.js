@@ -134,3 +134,27 @@ function parseLinkHeader(linkHeader) {
 }
 
 async function safeText(res) { try { return await res.text(); } catch { return ""; } }
+
+async function resolveWebfingerHost(domain) {
+  const url = `https://${domain}/.well-known/webfinger`;
+
+  try {
+    // Make a HEAD request without following redirects
+    const resp = await fetch(url, { method: "HEAD", redirect: "manual" });
+
+    // If there is a redirect location, extract its hostname
+    if (resp.status >= 300 && resp.status < 400) {
+      const location = resp.headers.get("location");
+      if (location) {
+        const newHost = new URL(location, url).hostname;
+        return newHost;
+      }
+    }
+
+    // No redirect, return original
+    return domain;
+  } catch (e) {
+    // On any error, return original
+    return domain;
+  }
+}
