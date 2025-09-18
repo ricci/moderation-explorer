@@ -139,7 +139,7 @@ async function getAccount(id) {
     [acct, server] = splitUsername(id);
   } catch (error) {
     errDiv.style.display = "block";
-    errDiv.textContent = error;
+    errDiv.textContent = "Enter a Fediverse handle in @user@domain format"
     return;
   }
 
