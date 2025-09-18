@@ -40,7 +40,7 @@
     <div class="form" id="inputform">
       <form class="form" action="javascript:void(0);">
         <input type="text" id="username" name="username" placeholder="@user@mastodon.server" width=50>
-            <input type="button" value="Find Out!" onclick="getAccount(document.getElementById('username').value,document.getElementById('token').value)"> <a href="#" onclick="javascript:toggleAdvanced();">(advanced)</a>
+            <input type="button" value="Find Out!" id="submit" onclick="populatePage(document.getElementById('username').value,document.getElementById('token').value)"> <a href="#" onclick="javascript:toggleAdvanced();">(advanced)</a>
         <div class="container"><div id="advanced" class="infobox" style="display:none">
             <h3>Advanced Mode: Access Token</h3>
             <p>Advanced Mode authenticates you to your server and adds two features: it allows the tool to see your social graph even if you have set it to private,
@@ -60,7 +60,7 @@
     </div>
     <div id="results">
 
-      <div id="you" style="display:none">
+      <div id="you" class="resetInvis" style="display:none">
         <h2>It Starts With You</h2>
         <p>
           You can mute or block <a href="https://docs.joinmastodon.org/user/moderating/#blocking-and-muting">individual accounts</a>
@@ -72,8 +72,9 @@
         </p>
       </div>
 
-      <div id="instanceblock" style="display:none">
+      <div id="instanceblock" class="resetInvis" style="display:none">
         <h2>Your Server</h2>
+
           <div class="container">
             <div class="sidebyside infobox serverbox">
                 <h3><a id="instancelink"></a></h3>
@@ -125,9 +126,9 @@
         </div>
       </div>
 
-      <div id="followers" style="display:none">
+      <div id="followers" class="resetInvis" style="display:none">
         <h2>Your Followers And Their Servers</h2>
-        <div class="container" id="followersBody">
+        <div class="container resetInvis" id="followersBody">
             <div class="sidebyside infobox">
                 <h3>You have <span id="followercount"></span> followers
                     on <span id="followerservers"></span> servers</h3>
@@ -139,7 +140,7 @@
                             <th>Percent</th>
                         </tr>
                      </thead>
-                     <tbody id="followerbody">
+                     <tbody class="resetClear" id="followerbody">
                      </tbody>
                  </table>
             </div>
@@ -162,15 +163,15 @@
             </div>
 
           </div>
-        <div class="container" id="followersNone" style="display:none">
+        <div class="container resetInvis" id="followersNone" style="display:none">
             <p>We didn't find any accounts that are following you - this can happen if you really don't have any followers, or if you have following information on your account set to private. Reload and see the "advanced" option for a way to access this information.</p>
         </div>
       </div>
 
-      <div id="following" style="display:none">
+      <div id="following" class="resetInvis" style="display:none">
         <h2>Those You Follow And Their Servers</h2>
 
-        <div class="container" id="followingBody">
+        <div class="container resetInvis" id="followingBody">
           <div class="sidebyside infobox">
               <h3>You follow <span id="followcount"></span> accounts
                   on <span id="followservers"></span> servers</h3>
@@ -182,7 +183,7 @@
                           <th>Percent</th>
                       </tr>
                    </thead>
-                   <tbody id="followbody">
+                   <tbody class="resetClear" id="followbody">
                    </tbody>
                </table>
           </div>
@@ -197,16 +198,16 @@
           </div>
 
         </div>
-        <div class="container" id="followingNone" style="display:none">
+        <div class="container resetInvis" id="followingNone" style="display:none">
             <p>We didn't find any accounts that you're following - this can happen if you really don't follow any accounts, or if you have following information on your account set to private. Reload and see the "advanced" option for a way to access this information.</p>
         </div>
       </div>
 
-      <div id="timeline" style="display:none">
+      <div id="timeline" class="resetInvis" style="display:none">
         <h2>Your Timeline</h2>
         <p>The following boxes summarize the specific posts that have appeared in your timeline in the last 24 hours</p>
 
-        <div class="container" id="timelineBody">
+        <div class="container resetInvis" id="timelineBody">
           <div class="sidebyside infobox">
               <h3>You saw <span id="timelinePostCount"></span> posts from <span id="timelineAccountCount"></span> accounts
                   on <span id="timelineServers"></span> servers</h3>
@@ -218,7 +219,7 @@
                           <th>Percent</th>
                       </tr>
                    </thead>
-                   <tbody id="timelinebody">
+                   <tbody class="resetClear" id="timelinebody">
                    </tbody>
                </table>
           </div>
@@ -232,7 +233,7 @@
                           <th>Percent</th>
                       </tr>
                    </thead>
-                   <tbody id="timelineTopPosterBody">
+                   <tbody class="resetClear" id="timelineTopPosterBody">
                    </tbody>
                </table>
           </div>
@@ -246,18 +247,18 @@
                           <th>Percent</th>
                       </tr>
                    </thead>
-                   <tbody id="timelineTopBoosterBody">
+                   <tbody class="resetClear" id="timelineTopBoosterBody">
                    </tbody>
                </table>
           </div>
         </div>
-        <div class="container" id="timelineNone" style="display:none">
+        <div class="container resetInvis" id="timelineNone" style="display:none">
             <p>We didn't find posts in your timeline</p>
         </div>
       </div>
 
 
-    <div id="coda" style="display:none">
+    <div id="coda" class="resetInvis" style="display:none">
         <h2>Decentralized Moderation</h2>
         <p>
           Every server in the Fediverse has its own rules and moderation style.
@@ -275,8 +276,8 @@
         </p>
     </div>
 
-    <div class="loading" id="loading">Loading <span id="loadWhat"></span> <div class="loader"></div></div>
-    <div id="errors" style="display:none"></span></div>
+    <div class="loading" class="restInvis" id="loading">Loading <span id="loadWhat"></span> <div class="loader"></div></div>
+    <div id="errors" class="resetInvis" style="display:none"></span></div>
 
       <div id="about">
         <h3>How Does This Work?</h3>

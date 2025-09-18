@@ -12,6 +12,21 @@ function populateUser() {
     setvisible("you");
 }
 
+function reset() {
+    // Make everything invisible again
+    var resetme = document.getElementsByClassName('resetInvis');
+    for (i=0; i< resetme.length; i++){
+        console.log("resetInvis");
+        resetme.item(i).style.display = "none";
+    }
+    // Remove contents of table bodies
+    var tbodies = document.getElementsByClassName('resetClear');
+    for (i=0; i< tbodies.length; i++){
+        console.log("resetBody");
+        tbodies.item(i).textContent =  '';
+    }
+}
+
 function populateInstance(instance) {
 
     const instancelink = document.getElementById("instancelink");
@@ -61,12 +76,13 @@ function populateInstance(instance) {
 
 
 function populateFollowers(followers,instance) {
+    const fBody = document.getElementById("followersBody");
+    const fNone = document.getElementById("followersNone");
     if (followers.length == 0) {
-      const fBody = document.getElementById("followersBody");
-      const fNone = document.getElementById("followersNone");
       fBody.style.display = "none";
       fNone.style.display = "block";
     } else {
+      fBody.style.display = "flex";
       settext("followercount",addCommas(followers.length));
       accts = extract_accts(followers);
       hist = instance_histogram(accts);
@@ -96,12 +112,13 @@ function populateFollowers(followers,instance) {
 }
 
 function populateFollowing(follows,instance) {
+    const fBody = document.getElementById("followingBody");
+    const fNone = document.getElementById("followingNone");
     if (follows.length == 0) {
-      const fBody = document.getElementById("followingBody");
-      const fNone = document.getElementById("followingNone");
       fBody.style.display = "none";
       fNone.style.display = "block";
     } else {
+      fBody.style.display = "flex";
       settext("followcount",addCommas(follows.length));
       accts = extract_accts(follows);
       hist = instance_histogram(accts);
@@ -131,12 +148,13 @@ function populateFollowing(follows,instance) {
 }
 
 function populateTimeline(posts, instance) {
+    const pBody = document.getElementById("timelineBody");
+    const pNone = document.getElementById("timelineNone");
     if (posts.length == 0) {
-      const pBody = document.getElementById("timelineBody");
-      const pNone = document.getElementById("timelineNone");
       pBody.style.display = "none";
       pNone.style.display = "block";
     } else {
+      pBody.style.display = "flex";
       settext("timelinePostCount",addCommas(posts.length));
       const accts = extract_accts_posts(posts);
 
@@ -225,8 +243,18 @@ function stopLoading() {
     document.getElementById("loading").style.display = "none";
 }
 
+// Wrapper so that we can disable the button and re-enable it the 
+// main function exits for any reasons
+async function populatePage(id,token) {
+    document.getElementById("submit").disabled = true;
+    await getAccount(id,token);
+    document.getElementById("submit").disabled = false;
+}
 
 async function getAccount(id,token) {
+  // Clear out everything in case we were displaying a previous user
+  reset();
+
   headers = {};
   if (token) {
         headers["Authorization"] = "Bearer " + token;
@@ -275,9 +303,6 @@ async function getAccount(id,token) {
   } finally {
       stopLoading();
   }
-
-  // If we got this far we'll hide the search box
-  document.getElementById("inputform").style.display = "none";
 
   populateUser();
 
