@@ -131,7 +131,11 @@ function stopLoading() {
 }
 
 
-async function getAccount(id) {
+async function getAccount(id,token) {
+  headers = {};
+  if (token) {
+        headers["Authorization"] = "Bearer " + token;
+  }
   errDiv = document.getElementById("errors");
   errDiv.style.display = "none";
   try {
@@ -142,10 +146,24 @@ async function getAccount(id) {
     return;
   }
 
+  if (token) {
+      startLoading("Authorization");
+      try {
+        const url = "https://" + server + VERIFY_ENDPOINT;
+        const response = await fetch(url, {headers});
+        if (!response.ok) { throw new Error(); }
+      } catch (error) {
+        errDiv.style.display = "block";
+        errDiv.textContent = "Check of authorization token failed";
+        return;
+      } finally {
+          stopLoading();
+      }
+  }
   startLoading("Account");
   try {
     const url = "https://" + server + SEARCH_ENDPOINT + '?type=accounts&resolve=false&limit=1&q=' + id;
-    const response = await fetch(url);
+    const response = await fetch(url, {headers});
     const result = await response.json();
     const account = result.accounts[0];
     var accountId = account.id;
@@ -175,7 +193,7 @@ async function getAccount(id) {
       startLoading("Server " + name);
       try {
           const url = "https://" + server + endpoint;
-          const response = await fetch(url);
+          const response = await fetch(url,{headers});
           instance[name] = await response.json();
       } catch {
           // We let these go, because some servers reject certain endpoints
@@ -190,7 +208,7 @@ async function getAccount(id) {
 
   try {
     startLoading("Followers");
-    var followers = await fetchAllFollowers({baseUrl, accountId});
+    var followers = await fetchAllFollowers({baseUrl, accountId, token});
   } catch (error) {
     errDiv.style.display = "block";
     errDiv.textContent = "Can't fetch followers: " + error;
@@ -202,7 +220,7 @@ async function getAccount(id) {
 
   try {
     startLoading("Follows");
-    var following = await fetchAllFollowing({baseUrl, accountId});
+    var following = await fetchAllFollowing({baseUrl, accountId, token});
   } catch (error) {
     errDiv.style.display = "block";
     errDiv.textContent = "Can't fetch following: " + error;

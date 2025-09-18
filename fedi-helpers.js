@@ -6,6 +6,7 @@ const PEERS_ENDPOINT = "/api/v1/instance/peers";
 const ACTIVITY_ENDPOINT = "/api/v1/instance/activity";
 const RULES_ENDPOINT = "/api/v1/instance/rules";
 const BLOCKS_ENDPOINT = "/api/v1/instance/domain_blocks";
+const VERIFY_ENDPOINT = "/api/v1/accounts/verify_credentials";
 
 // Split a username in the form user@domain or @user@domain
 // into parts; throws an error if username is not in the
@@ -38,7 +39,7 @@ async function fetchAccountRelation({
   limit = 80,
   maxPages = Infinity,
   //maxPages = 2,
-  onPage,
+  onPage
 }) {
   if (!baseUrl || !accountId) throw new Error("baseUrl and accountId are required");
   if (relation !== "followers" && relation !== "following") {
@@ -81,8 +82,9 @@ function fetchAllFollowing(opts) {
 
 /* ---------- internals ---------- */
 async function fetchMastoPage(url, token) {
-  const headers = { Accept: "application/json" };
+  var headers = { Accept: "application/json" };
   if (token) headers.Authorization = `Bearer ${token}`;
+  console.log(headers);
 
   const res = await fetchWithRetries(url.toString(), { headers });
 

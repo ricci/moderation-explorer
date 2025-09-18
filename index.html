@@ -38,12 +38,24 @@
     </noscript>
 
     <div class="form" id="inputform">
-      <form class="form" action="javascript:getAccount(document.getElementById('username').value)">
+      <form class="form" action="javascript:void(0);">
         <input type="text" id="username" name="username" placeholder="@user@mastodon.server" width=50>
-        <input type="button" value="Find Out!" onclick="getAccount(document.getElementById('username').value)">
+            <input type="button" value="Find Out!" onclick="getAccount(document.getElementById('username').value,document.getElementById('token').value)"> <a href="#" onclick="javascript:document.getElementById('advanced').style.display='block'; return 0;">(advanced)</a>
+        <div class="container"><div id="advanced" class="infobox" style="display:none">
+            <h4>Access Token</h4>
+            <p>If you have your followers hidden on your account, this tool can only see them with an access token. To create a token, go to "Preferences", "Development", "New Application" in the Mastodon web interface. Pick any name, and give the token "Read" access to your account. Click "Submit", then click on the name of your new application. Cut and paste "Your access token" into this box.
+            </p>
+            <p> 
+                The reason for this complicated process is that this tool is unable to support the OAuth flows supported by Mastodon
+                because it is has no server component (it is a "public client" in OAuth terms, and Mastodon only currently supports "confidential clients").
+            </p>
+            <p>
+               This token will <i>only</i> be sent to your home Mastodon server, and will not be sent to the operator of this website. You may still wish to delete it when finished for safety.
+            </p>
+            <input type="text" id="token" name="token" placeholder="access token" width=50>
+        </div></div>
       </form>
     </div>
-
     <div id="results">
 
       <div id="you" style="display:none">
@@ -149,7 +161,7 @@
 
           </div>
         <div class="container" id="followersNone" style="display:none">
-            <p>We didn't find any accounts that are following you - this can happen if you really don't have any followers, or if you have following information on your account set to private.</p>
+            <p>We didn't find any accounts that are following you - this can happen if you really don't have any followers, or if you have following information on your account set to private. Reload and see the "advanced" option for a way to access this information.</p>
         </div>
       </div>
 
@@ -184,7 +196,7 @@
 
         </div>
         <div class="container" id="followingNone" style="display:none">
-            <p>We didn't find any accounts that you're following - this can happen if you really don't follow any accounts, or if you have following information on your account set to private.</p>
+            <p>We didn't find any accounts that you're following - this can happen if you really don't follow any accounts, or if you have following information on your account set to private. Reload and see the "advanced" option for a way to access this information.</p>
         </div>
       </div>
 
