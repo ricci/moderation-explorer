@@ -1,8 +1,23 @@
 @font-face {
   font-family: "Kade-Regular";
-  src: url("../fonts/kade.woff") format("woff");
+  src: url("../fonts/kade-regular.woff2") format("woff2");
+  #src: url("../fonts/kade.woff") format("woff");
   font-weight: normal;
   font-style: normal;
+}
+
+@font-face {
+  font-family: "Kade-Regular";
+  src: url("../fonts/kade-medium.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kade-Regular";
+  src: url("../fonts/kade-medium.woff2") format("woff2");
+  font-weight: normal;
+  font-style: italic, oblique;
 }
 
 body {
