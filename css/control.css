@@ -4,7 +4,7 @@ p {
 
 div#errors {
   margin-top: 10pt;
-  color: #bb2828;
+  color: #e83333;
   font-size: 18pt;
 }
 
@@ -108,6 +108,10 @@ div#about {
     margin-top: 30pt;
     color: #999;
     font-size: 0.85rem;
+}
+
+div#followersNone p, div#followingNone p {
+    color: yellow;
 }
 
 /* HTML: <div class="loader"></div> */
