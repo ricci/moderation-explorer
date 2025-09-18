@@ -26,3 +26,7 @@ function instance_histogram(account_list) {
     return new Map([...map.entries()].sort((a, b) => b[1] - a[1]));
 }
 
+function addCommas(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+

@@ -39,10 +39,10 @@ function populateInstance(instance) {
     adminemaillink.textContent = instance.instance.contact.email;
     adminemail.replaceChildren(adminemaillink);
 
-    settext("mau",instance.instance.usage.users.active_month ? instance.instance.usage.users.active_month : "not public"); + instance.instance.domain
-    settext("weeklyposts",instance.activity? instance.activity[0].statuses : "not public");
-    settext("peers",instance.peers? instance.peers.length : "not public");
-    settext("blockedservers",instance.blocks? instance.blocks.length : "not public");
+    settext("mau",instance.instance.usage.users.active_month ? addCommas(instance.instance.usage.users.active_month) : "not public"); + instance.instance.domain
+    settext("weeklyposts",instance.activity? addCommas(instance.activity[1].statuses) : "not public");
+    settext("peers",instance.peers? addCommas(instance.peers.length) : "not public");
+    settext("blockedservers",instance.blocks? addCommas(instance.blocks.length) : "not public");
 
     settext("regstatus",instance.instance.registrations.enabled? "enabled" : "disabled");
 
@@ -57,11 +57,11 @@ function populateFollowers(followers,instance) {
       fBody.style.display = "none";
       fNone.style.display = "block";
     } else {
-      settext("followercount",followers.length);
+      settext("followercount",addCommas(followers.length));
       accts = extract_accts(followers);
       hist = instance_histogram(accts);
 
-      settext("followerservers",hist.size);
+      settext("followerservers",addCommas(hist.size));
 
       const tbody = document.getElementById("followerbody");
       var count = 0;
@@ -73,7 +73,7 @@ function populateFollowers(followers,instance) {
           let th = document.createElement("th");
           th.textContent = key;
           let td1 = document.createElement("td");
-          td1.textContent = value;
+          td1.textContent = addCommas(value);
           let td2 = document.createElement("td");
           td2.textContent = (value * 100 / followers.length).toFixed(1) + " %";
           tr.append(th,td1,td2);
@@ -92,11 +92,11 @@ function populateFollowing(follows,instance) {
       fBody.style.display = "none";
       fNone.style.display = "block";
     } else {
-      settext("followcount",follows.length);
+      settext("followcount",addCommas(follows.length));
       accts = extract_accts(follows);
       hist = instance_histogram(accts);
 
-      settext("followservers",hist.size);
+      settext("followservers",addCommas(hist.size));
 
       const tbody = document.getElementById("followbody");
       var count = 0;
@@ -108,7 +108,7 @@ function populateFollowing(follows,instance) {
           let th = document.createElement("th");
           th.textContent = key;
           let td1 = document.createElement("td");
-          td1.textContent = value;
+          td1.textContent = addCommas(value);
           let td2 = document.createElement("td");
           td2.textContent = (value * 100 / follows.length).toFixed(1) + " %";
           tr.append(th,td1,td2);
@@ -172,7 +172,7 @@ async function getAccount(id) {
 
   const instance = {};
   for (const [name,endpoint] of endpoints) {
-      startLoading("server" + name);
+      startLoading("Server " + name);
       try {
           const url = "https://" + server + endpoint;
           const response = await fetch(url);
