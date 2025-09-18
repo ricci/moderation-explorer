@@ -109,3 +109,18 @@ div#about {
     color: #999;
     font-size: 0.85rem;
 }
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: fit-content;
+  /*font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;*/
+  clip-path: inset(0 3ch 0 0);
+  animation: l4 1s steps(8) infinite;
+  display: inline-block;
+}
+.loader:before {
+  content:"..."
+}
+@keyframes l4 {to{clip-path: inset(0 -.5ch 0 0)}}

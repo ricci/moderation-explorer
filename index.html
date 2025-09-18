@@ -38,16 +38,13 @@
     </noscript>
 
     <div class="form" id="inputform">
-      <form class="form" action="javascript:getAccount(document.getElementById('username').value,'debug')">
+      <form class="form" action="javascript:getAccount(document.getElementById('username').value)">
         <input type="text" id="username" name="username" placeholder="@user@mastodon.server" width=50>
-        <input type="button" value="Find Out!" onclick="getAccount(document.getElementById('username').value,'debug')">
+        <input type="button" value="Find Out!" onclick="getAccount(document.getElementById('username').value)">
       </form>
     </div>
 
     <div id="results">
-      <div id="errors" style="display:none"></span></div>
-
-      <div class="loading" id="loadingAccount">Loading Account ...</div>
 
       <div id="you" style="display:none">
         <h2>It Starts With You</h2>
@@ -60,8 +57,6 @@
           Moderators look at these reports based on their community’s rules.
         </p>
       </div>
-
-      <div class="loading" id="loadingServer">Loading Server Information ...</div>
 
       <div id="instanceblock" style="display:none">
         <h2>Your Server</h2>
@@ -116,8 +111,6 @@
         </div>
       </div>
 
-      <div class="loading" id="loadingFollowers">Loading Followers ...</div>
-
       <div id="followers" style="display:none">
         <h2>Your Followers And Their Servers</h2>
         <div class="container" id="followersBody">
@@ -159,8 +152,6 @@
             <p>We didn't find any accounts that are following you - this can happen if you really don't have any followers, or if you have following information on your account set to private.</p>
         </div>
       </div>
-
-      <div class="loading" id="loadingFollows">Loading Followed Accounts ...</div>
 
       <div id="following" style="display:none">
         <h2>Those You Follow And Their Servers</h2>
@@ -214,6 +205,9 @@
            Simply thanking your moderators can make a real difference!
         </p>
     </div>
+
+    <div class="loading" id="loading">Loading <span id="loadWhat"></span> <div class="loader"></div></div>
+    <div id="errors" style="display:none"></span></div>
 
       <div id="about">
         <h3>How Does This Work?</h3>
