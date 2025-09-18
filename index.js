@@ -1,3 +1,13 @@
+function toggleAdvanced() {
+    let e = document.getElementById('advanced')
+    if (e.style.display=='block') {
+        e.style.display='none';
+    } else {
+        e.style.display='block';
+    }
+    return 0;
+}
+
 function populateUser() {
     setvisible("you");
 }
