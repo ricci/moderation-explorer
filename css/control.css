@@ -73,6 +73,10 @@ div.infobox {
     border-collapse: collapse;
 }
 
+#inputform .infobox {
+    margin-top: 20px;
+}
+
 tbody tr:nth-child(odd) {
   background-color: #fff1;
 }
