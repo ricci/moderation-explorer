@@ -151,7 +151,7 @@ async function getAccount(id) {
     var accountId = account.id;
   } catch (error) {
     errDiv.style.display = "block";
-    errDiv.textContent = "Error fetching account";
+    errDiv.textContent = "Error fetching account (note: only Mastodon accounts supported for now)";
     return;
   } finally {
       stopLoading();
