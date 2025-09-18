@@ -120,6 +120,91 @@ function populateFollowing(follows,instance) {
     setvisible("following");
 }
 
+function populateTimeline(posts, instance) {
+    if (posts.length == 0) {
+      const pBody = document.getElementById("timelineBody");
+      const pNone = document.getElementById("timelineNone");
+      pBody.style.display = "none";
+      pNone.style.display = "block";
+    } else {
+      settext("timelinePostCount",addCommas(posts.length));
+      const accts = extract_accts_posts(posts);
+
+      const accountN = new Set(accts).size;
+      settext("timelineAccountCount",addCommas(accountN));
+
+      hist = instance_histogram(accts);
+
+      settext("timelineServers",addCommas(hist.size));
+
+      const tbody = document.getElementById("timelinebody");
+      var count = 0;
+      for (let [key, value] of hist) {
+          if (!key) {
+              key = instance;
+          }
+          let tr = document.createElement("tr");
+          let th = document.createElement("th");
+          th.textContent = key;
+          let td1 = document.createElement("td");
+          td1.textContent = addCommas(value);
+          let td2 = document.createElement("td");
+          td2.textContent = (value * 100 / posts.length).toFixed(1) + " %";
+          tr.append(th,td1,td2);
+          tbody.appendChild(tr);
+          count++;
+          if (count >= 10) break;
+      }
+
+      const OPaccts = extract_accts_op(posts);
+      const OPhist = account_histogram(OPaccts);
+      const OPaccountN = OPhist.size;
+      settext("timelineOPCount",addCommas(OPaccountN));
+      const OPtbody = document.getElementById("timelineTopPosterBody");
+      var count = 0;
+      for (let [key, value] of OPhist) {
+          if (!key) {
+              key = instance;
+          }
+          let tr = document.createElement("tr");
+          let th = document.createElement("th");
+          th.textContent = "@"+ key + (key.includes("@") ? "" : ("@" + instance) );
+          let td1 = document.createElement("td");
+          td1.textContent = addCommas(value);
+          let td2 = document.createElement("td");
+          td2.textContent = (value * 100 / posts.length).toFixed(1) + " %";
+          tr.append(th,td1,td2);
+          OPtbody.appendChild(tr);
+          count++;
+          if (count >= 10) break;
+      }
+
+      const Baccts = extract_accts_boosters(posts);
+      const Bhist = account_histogram(Baccts);
+      var BaccountN = Bhist.size;
+      settext("timelineBoosterCount",addCommas(BaccountN));
+      const Btbody = document.getElementById("timelineTopBoosterBody");
+      var count = 0;
+      for (let [key, value] of Bhist) {
+          if (!key) {
+              key = instance;
+          }
+          let tr = document.createElement("tr");
+          let th = document.createElement("th");
+          th.textContent = "@"+ key + (key.includes("@") ? "" : ("@" + instance) );
+          let td1 = document.createElement("td");
+          td1.textContent = addCommas(value);
+          let td2 = document.createElement("td");
+          td2.textContent = (value * 100 / posts.length).toFixed(1) + " %";
+          tr.append(th,td1,td2);
+          Btbody.appendChild(tr);
+          count++;
+          if (count >= 10) break;
+      }
+    }
+    setvisible("timeline");
+}
+
 
 function startLoading(what) {
     document.getElementById("loadWhat").textContent = what;
@@ -235,6 +320,21 @@ async function getAccount(id,token) {
     stopLoading();
   }
   populateFollowing(following,domain);
+
+  if (token) {
+    try {
+      startLoading("Timeline");
+      var posts = await fetchLastNHoursStatuses(baseUrl, token, 24);
+    } catch (error) {
+      errDiv.style.display = "block";
+      errDiv.textContent = "Can't fetch timeline: " + error;
+      return;
+    } finally {
+      stopLoading();
+    }
+    populateTimeline(posts,domain);
+  }
+
   document.getElementById("coda").style.display = "block";
 
 }

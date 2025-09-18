@@ -200,6 +200,61 @@
         </div>
       </div>
 
+      <div id="timeline" style="display:none">
+        <h2>Your Timeline</h2>
+        <p>The following boxes summarize the specific posts that have appeared in your timeline in the last 24 hours</p>
+
+        <div class="container" id="timelineBody">
+          <div class="sidebyside infobox">
+              <h3>You saw <span id="timelinePostCount"></span> posts from <span id="timelineAccountCount"></span> accounts
+                  on <span id="timelineServers"></span> servers</h3>
+              <table>
+                   <thead>
+                      <tr>
+                          <th>Server</th>
+                          <th>Posts</th>
+                          <th>Percent</th>
+                      </tr>
+                   </thead>
+                   <tbody id="timelinebody">
+                   </tbody>
+               </table>
+          </div>
+          <div class="sidebyside infobox">
+              <h3>You saw original posts from <span id="timelineOPCount"></span> accounts</h3>
+              <table>
+                   <thead>
+                      <tr>
+                          <th>Server</th>
+                          <th>Posts</th>
+                          <th>Percent</th>
+                      </tr>
+                   </thead>
+                   <tbody id="timelineTopPosterBody">
+                   </tbody>
+               </table>
+          </div>
+          <div class="sidebyside infobox">
+              <h3>You saw boosts from <span id="timelineBoosterCount"></span> accounts</h3>
+              <table>
+                   <thead>
+                      <tr>
+                          <th>Server</th>
+                          <th>Posts</th>
+                          <th>Percent</th>
+                      </tr>
+                   </thead>
+                   <tbody id="timelineTopBoosterBody">
+                   </tbody>
+               </table>
+          </div>
+        </div>
+        <div class="container" id="timelineNone" style="display:none">
+            <p>We didn't find posts in your timeline</p>
+        </div>
+      </div>
+
+
     <div id="coda" style="display:none">
         <h2>Decentralized Moderation</h2>
         <p>

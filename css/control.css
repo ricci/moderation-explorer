@@ -99,6 +99,9 @@ td, th {
     display: inline-block;
 }
 
+#timeline .infobox table {
+    display: inline-block;
+}
 
 div.infobox h3 {
     margin-top: 0px;

@@ -84,7 +84,6 @@ function fetchAllFollowing(opts) {
 async function fetchMastoPage(url, token) {
   var headers = { Accept: "application/json" };
   if (token) headers.Authorization = `Bearer ${token}`;
-  console.log(headers);
 
   const res = await fetchWithRetries(url.toString(), { headers });
 
@@ -157,4 +156,45 @@ async function resolveWebfingerHost(domain) {
     // On any error, return original
     return domain;
   }
+}
+
+async function fetchLastNHoursStatuses(baseUrl, accessToken, hours) {
+  const cutoffTime = Date.now() - hours * 60 * 60 * 1000; // N hours ago in ms
+  let allStatuses = [];
+  let nextPage = `${baseUrl}/api/v1/timelines/home?limit=40`;
+  const headers = { Authorization: `Bearer ${accessToken}` };
+
+  while (nextPage) {
+    const response = await fetch(nextPage, { headers });
+    if (!response.ok) {
+      console.error(`Error: ${response.status} ${response.statusText}`);
+      break;
+    }
+
+    const data = await response.json();
+    if (data.length === 0) break;
+
+    // Stop if statuses are older than cutoff
+    const filtered = data.filter(
+      status => new Date(status.created_at).getTime() >= cutoffTime
+    );
+    allStatuses.push(...filtered);
+
+    // If last post is older than cutoff, stop fetching
+    const lastStatus = data[data.length - 1];
+    if (new Date(lastStatus.created_at).getTime() < cutoffTime) {
+      break;
+    }
+
+    // Get next page link from HTTP Link header if available
+    const linkHeader = response.headers.get("Link");
+    if (linkHeader) {
+      const match = linkHeader.match(/<([^>]+)>;\s*rel="next"/);
+      nextPage = match ? match[1] : null;
+    } else {
+      nextPage = null;
+    }
+  }
+
+  return allStatuses;
 }
