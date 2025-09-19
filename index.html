@@ -14,6 +14,7 @@
     <script type="text/javascript" src="helpers.js"></script>
     <script type="text/javascript" src="fedi-helpers.js"></script>
     <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="data/domain_percentages.js"></script>
 </head>
 
 <body>
@@ -203,6 +204,51 @@
             <p>We didn't find any accounts that you're following - this can happen if you really don't follow any accounts, or if you have following information on your account set to private. Reload and see the "advanced" option for a way to access this information.</p>
         </div>
       </div>
+
+      <div id="comparison" class="resetInvis" style="display:none">
+        <h2>How You Compare To The Rest of the Fediverse</h2>
+        <p>
+            These tables compare how your follows and followers are distributed
+            among servers, as compared to where the population of the Fediverse
+            as a whole is.
+            Are you more connected with
+            your local server than you are to the big Fediverse servers? Are
+            there other server servers that might be a good fit for you?
+         </p>
+
+
+        <div class="container" id="comparisonFollwersBody">
+          <div class="sidebyside infobox">
+              <h3>Who Follows You</h3>
+              <table>
+                   <thead>
+                      <tr>
+                          <th>Server</th>
+                          <th>Your Percent</th>
+                          <th>Population</th>
+                      </tr>
+                   </thead>
+                   <tbody class="resetClear" id="comparisonfollowersbody">
+                   </tbody>
+               </table>
+          </div>
+          <div class="sidebyside infobox">
+              <h3>Who You Follow</h3>
+              <table>
+                   <thead>
+                      <tr>
+                          <th>Server</th>
+                          <th>Your Percent</th>
+                          <th>Population</th>
+                      </tr>
+                   </thead>
+                   <tbody class="resetClear" id="comparisonfollowingbody">
+                   </tbody>
+               </table>
+          </div>
+        </div>
+
+     </div>
 
       <div id="timeline" class="resetInvis" style="display:none">
         <h2>Your Timeline</h2>

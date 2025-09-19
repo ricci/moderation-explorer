@@ -117,6 +117,7 @@ function populateFollowers(followers,instance) {
       }
     }
     setvisible("followers");
+    return hist;
 }
 
 function populateFollowing(follows,instance) {
@@ -153,6 +154,49 @@ function populateFollowing(follows,instance) {
       }
     }
     setvisible("following");
+    return hist;
+}
+
+function populateComparison(followers,followers_hist,follows,follows_hist,instance) {
+
+    const tbody = document.getElementById("comparisonfollowersbody");
+    var count = 0;
+    for (let [key, value] of followers_hist) {
+        if (!key) {
+            key = instance;
+        }
+        let tr = document.createElement("tr");
+        let th = document.createElement("th");
+        th.textContent = key;
+        let td1 = document.createElement("td");
+        td1.textContent = (value * 100 / followers.length).toFixed(1) + " %";
+        let td2 = document.createElement("td");
+        td2.textContent = (domain_percentages[key]?domain_percentages[key].Users.toFixed(3) : "--") + " %";
+        tr.append(th,td1,td2);
+        tbody.appendChild(tr);
+        count++;
+        if (count >= 10) break;
+    }
+
+    const tFbody = document.getElementById("comparisonfollowingbody");
+    var count = 0;
+    for (let [key, value] of follows_hist) {
+        if (!key) {
+            key = instance;
+        }
+        let tr = document.createElement("tr");
+        let th = document.createElement("th");
+        th.textContent = key;
+        let td1 = document.createElement("td");
+        td1.textContent = (value * 100 / follows.length).toFixed(1) + " %";
+        let td2 = document.createElement("td");
+        td2.textContent = (domain_percentages[key]?domain_percentages[key].Users.toFixed(3) : "--") + " %";
+        tr.append(th,td1,td2);
+        tFbody.appendChild(tr);
+        count++;
+        if (count >= 10) break;
+    }
+    setvisible("comparison");
 }
 
 function populateTimeline(posts, instance) {
@@ -350,7 +394,7 @@ async function getAccount(id,token) {
   } finally {
     stopLoading();
   }
-  populateFollowers(followers,domain);
+  const followers_hist = populateFollowers(followers,domain);
 
   try {
     startLoading("Follows");
@@ -362,7 +406,11 @@ async function getAccount(id,token) {
   } finally {
     stopLoading();
   }
-  populateFollowing(following,domain);
+  const following_hist = populateFollowing(following,domain);
+
+  if (followers.length > 0 || following.length > 0) {
+    populateComparison(followers,followers_hist,following,following_hist,domain);
+  }
 
   if (token) {
     try {
