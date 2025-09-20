@@ -245,11 +245,6 @@ function populateTimeline(posts, instance) {
       const OPtbody = document.getElementById("timelineTopPosterBody");
       var count = 0;
       for (let [key, value] of OPhist) {
-          try {
-            [acct, domain] = splitUsername(key);
-          } catch (error) {
-            domain = instance
-          }
           let tr = document.createElement("tr");
           let th = document.createElement("th");
           th.textContent = "@"+ key + (key.includes("@") ? "" : ("@" + instance) );
@@ -257,9 +252,7 @@ function populateTimeline(posts, instance) {
           td1.textContent = addCommas(value);
           let td2 = document.createElement("td");
           td2.textContent = (value * 100 / posts.length).toFixed(1) + " %";
-          let td3 = document.createElement("td");
-          td3.textContent = (domain_percentages[domain]?domain_percentages[domain].Users.toFixed(3) : "--") + " %";
-          tr.append(th,td1,td2,td3);
+          tr.append(th,td1,td2);
           OPtbody.appendChild(tr);
           count++;
           if (count >= 10) break;
@@ -272,11 +265,6 @@ function populateTimeline(posts, instance) {
       const Btbody = document.getElementById("timelineTopBoosterBody");
       var count = 0;
       for (let [key, value] of Bhist) {
-          try {
-            [acct, domain] = splitUsername(key);
-          } catch (error) {
-            domain = instance
-          }
           let tr = document.createElement("tr");
           let th = document.createElement("th");
           th.textContent = "@"+ key + (key.includes("@") ? "" : ("@" + instance) );
@@ -284,9 +272,7 @@ function populateTimeline(posts, instance) {
           td1.textContent = addCommas(value);
           let td2 = document.createElement("td");
           td2.textContent = (value * 100 / posts.length).toFixed(1) + " %";
-          let td3 = document.createElement("td");
-          td3.textContent = (domain_percentages[domain]?domain_percentages[domain].Users.toFixed(3) : "--") + " %";
-          tr.append(th,td1,td2,td3);
+          tr.append(th,td1,td2);
           Btbody.appendChild(tr);
           count++;
           if (count >= 10) break;
