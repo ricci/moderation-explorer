@@ -245,8 +245,10 @@ function populateTimeline(posts, instance) {
       const OPtbody = document.getElementById("timelineTopPosterBody");
       var count = 0;
       for (let [key, value] of OPhist) {
-          if (!key) {
-              key = instance;
+          try {
+            [acct, domain] = splitUsername(key);
+          } catch (error) {
+            domain = instance
           }
           let tr = document.createElement("tr");
           let th = document.createElement("th");
@@ -256,7 +258,7 @@ function populateTimeline(posts, instance) {
           let td2 = document.createElement("td");
           td2.textContent = (value * 100 / posts.length).toFixed(1) + " %";
           let td3 = document.createElement("td");
-          td3.textContent = (domain_percentages[key]?domain_percentages[key].Users.toFixed(3) : "--") + " %";
+          td3.textContent = (domain_percentages[domain]?domain_percentages[domain].Users.toFixed(3) : "--") + " %";
           tr.append(th,td1,td2,td3);
           OPtbody.appendChild(tr);
           count++;
@@ -270,8 +272,10 @@ function populateTimeline(posts, instance) {
       const Btbody = document.getElementById("timelineTopBoosterBody");
       var count = 0;
       for (let [key, value] of Bhist) {
-          if (!key) {
-              key = instance;
+          try {
+            [acct, domain] = splitUsername(key);
+          } catch (error) {
+            domain = instance
           }
           let tr = document.createElement("tr");
           let th = document.createElement("th");
@@ -281,7 +285,7 @@ function populateTimeline(posts, instance) {
           let td2 = document.createElement("td");
           td2.textContent = (value * 100 / posts.length).toFixed(1) + " %";
           let td3 = document.createElement("td");
-          td3.textContent = (domain_percentages[key]?domain_percentages[key].Users.toFixed(3) : "--") + " %";
+          td3.textContent = (domain_percentages[domain]?domain_percentages[domain].Users.toFixed(3) : "--") + " %";
           tr.append(th,td1,td2,td3);
           Btbody.appendChild(tr);
           count++;
