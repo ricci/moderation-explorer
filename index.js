@@ -230,7 +230,9 @@ function populateTimeline(posts, instance) {
           td1.textContent = addCommas(value);
           let td2 = document.createElement("td");
           td2.textContent = (value * 100 / posts.length).toFixed(1) + " %";
-          tr.append(th,td1,td2);
+          let td3 = document.createElement("td");
+          td3.textContent = (domain_percentages[key]?domain_percentages[key].Users.toFixed(3) : "--") + " %";
+          tr.append(th,td1,td2,td3);
           tbody.appendChild(tr);
           count++;
           if (count >= 10) break;
@@ -253,7 +255,9 @@ function populateTimeline(posts, instance) {
           td1.textContent = addCommas(value);
           let td2 = document.createElement("td");
           td2.textContent = (value * 100 / posts.length).toFixed(1) + " %";
-          tr.append(th,td1,td2);
+          let td3 = document.createElement("td");
+          td3.textContent = (domain_percentages[key]?domain_percentages[key].Users.toFixed(3) : "--") + " %";
+          tr.append(th,td1,td2,td3);
           OPtbody.appendChild(tr);
           count++;
           if (count >= 10) break;
@@ -276,7 +280,9 @@ function populateTimeline(posts, instance) {
           td1.textContent = addCommas(value);
           let td2 = document.createElement("td");
           td2.textContent = (value * 100 / posts.length).toFixed(1) + " %";
-          tr.append(th,td1,td2);
+          let td3 = document.createElement("td");
+          td3.textContent = (domain_percentages[key]?domain_percentages[key].Users.toFixed(3) : "--") + " %";
+          tr.append(th,td1,td2,td3);
           Btbody.appendChild(tr);
           count++;
           if (count >= 10) break;
