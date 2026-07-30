@@ -330,8 +330,11 @@ async function getAccount(id,token) {
         const response = await fetch(url, {headers});
         if (!response.ok) { throw new Error(); }
       } catch (error) {
+        // Token is dead (expired, revoked, etc.) - forget it locally too,
+        // rather than leaving a stale "Connected as..." status around.
+        await disconnectOAuth();
         errDiv.style.display = "block";
-        errDiv.textContent = "Check of authorization token failed";
+        errDiv.textContent = "Your Mastodon connection is no longer valid - reconnect below";
         return;
       } finally {
           stopLoading();

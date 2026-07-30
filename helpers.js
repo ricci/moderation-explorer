@@ -62,11 +62,27 @@ function addCommas(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+// OAuth connection state normally lives in sessionStorage (forgotten when
+// the tab closes). If the user opted in to "remember me on this device", it
+// lives in localStorage instead (kept until they Disconnect). Whichever one
+// actually has a token is the one in use.
+function oauthStore() {
+    return localStorage.getItem("oauth_access_token") ? localStorage : sessionStorage;
+}
+
 // Fallbacks in case fedi-oauth.js (an ES module) fails to load, e.g. when
 // opened via file:// - keeps the non-OAuth part of the tool working.
 // startOAuth/disconnectOAuth get replaced with the real versions on success.
+// The stored token is only good for the handle we connected with - if the
+// username field has since been changed, quietly stop offering it rather
+// than sending it along with (or trying to authenticate) a different account.
 function getAccessToken() {
-    return sessionStorage.getItem("oauth_access_token") || "";
+    const store = oauthStore();
+    const boundUsername = store.getItem("oauth_username");
+    if (boundUsername && boundUsername !== document.getElementById("username").value) {
+        return "";
+    }
+    return store.getItem("oauth_access_token") || "";
 }
 
 function startOAuth() {

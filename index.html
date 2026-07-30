@@ -51,11 +51,15 @@
                 Enter your handle above, then click "Connect to Mastodon" below. You'll be sent to your own server to log in and approve access, then brought right back here.
             </p>
             <p>
-               This uses Mastodon's standard OAuth login (with PKCE): the resulting access token is only ever sent to your home Mastodon server, is stored only in this browser tab, and is never visible to the operator of this website. Click "Disconnect" when you're done for safety.
+               This uses Mastodon's standard OAuth login (with PKCE): the resulting access token is only ever sent to your home Mastodon server, and is never visible to the operator of this website. By default it's forgotten as soon as you close this tab; check "remember me" below to keep it in this browser until you click "Disconnect".
             </p>
+            <span id="oauthStatus"></span>
             <input type="button" id="oauthConnect" value="Connect to Mastodon" onclick="startOAuth()">
             <input type="button" id="oauthDisconnect" value="Disconnect" onclick="disconnectOAuth()" style="display:none">
-            <span id="oauthStatus"></span>
+            <br>
+            <span id="oauthStale" style="display:none">not used for other accounts</span>
+            <br>
+            <label><input type="checkbox" id="oauthRemember"> Remember me on this device</label>
         </div></div>
       </form>
     </div>
@@ -337,12 +341,18 @@
             report information such as activity, and some accounts have their
             following and followers relationships hidden.
         </p>
+        <p>
+            In advanced mode, this tool registers a temporary application with your own Mastodon server and logs you in there via OAuth, so your password is never seen by this site.
+            This uses a technique called PKCE, which makes sure that only this browser - not anyone who might intercept the login on the way - can actually complete the connection and obtain an access token.
+            Clicking "Disconnect" revokes that access token on your server, so it can no longer be used.
+        </p>
 
         <h3>Privacy</h3>
         <p>
             All work is done entirely in your browser; no information is sent
             to the operator of this website. The only server contacted is the
-            one that hosts the account.
+            one that hosts the account you're looking up - never this website's server.
+            When you connect via OAuth, the resulting access token is likewise never sent anywhere but your own account's server: by default it's kept only in your browser for that tab, or in your browser on this device if you checked "remember me", until you click "Disconnect".
          </p>
                 
         <h3>Who Made This?</h3>
