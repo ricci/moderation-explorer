@@ -134,26 +134,26 @@ function parseLinkHeader(linkHeader) {
 
 async function safeText(res) { try { return await res.text(); } catch { return ""; } }
 
-async function resolveWebfingerHost(domain) {
-  const url = `https://${domain}/.well-known/webfinger`;
+// Looks up acct@domain via webfinger and returns the host actually serving
+// the Mastodon API for that account (its ActivityPub "self" link), which can
+// differ from domain for vanity/custom-domain setups. Falls back to domain
+// on any failure - missing/malformed response, network error, no self link.
+async function resolveWebfingerHost(acct, domain) {
+  const url = new URL(`https://${domain}/.well-known/webfinger`);
+  url.searchParams.set("resource", `acct:${acct}@${domain}`);
 
   try {
-    // Make a HEAD request without following redirects
-    const resp = await fetch(url, { method: "HEAD", redirect: "manual" });
+    const resp = await fetch(url, { headers: { Accept: "application/jrd+json" } });
+    if (!resp.ok) return domain;
 
-    // If there is a redirect location, extract its hostname
-    if (resp.status >= 300 && resp.status < 400) {
-      const location = resp.headers.get("location");
-      if (location) {
-        const newHost = new URL(location, url).hostname;
-        return newHost;
-      }
-    }
+    const jrd = await resp.json();
+    const links = jrd.links || [];
+    const self = links.find((l) => l.rel === "self" && l.type === "application/activity+json" && l.href)
+              || links.find((l) => l.rel === "self" && l.href);
+    if (!self) return domain;
 
-    // No redirect, return original
-    return domain;
+    return new URL(self.href).hostname;
   } catch (e) {
-    // On any error, return original
     return domain;
   }
 }

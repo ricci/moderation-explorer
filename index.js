@@ -319,7 +319,7 @@ async function getAccount(id,token) {
 
   // Check for webfinger to see if the actual API is somewhere else
   startLoading("Webfinger");
-  const server = await resolveWebfingerHost(domain);
+  const server = await resolveWebfingerHost(acct, domain);
   stopLoading();
 
 
