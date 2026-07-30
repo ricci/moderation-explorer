@@ -339,8 +339,10 @@ async function getAccount(id,token) {
   }
   startLoading("Account");
   try {
+    // Deliberately unauthenticated: resolve=false makes this endpoint public,
+    // and sending a token here would require a read:search scope we don't ask for.
     const url = "https://" + server + SEARCH_ENDPOINT + '?type=accounts&resolve=false&limit=1&q=' + id;
-    const response = await fetch(url, {headers});
+    const response = await fetch(url);
     const result = await response.json();
     const account = result.accounts[0];
     var accountId = account.id;

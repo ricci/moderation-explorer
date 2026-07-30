@@ -62,3 +62,18 @@ function addCommas(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+// Fallbacks in case fedi-oauth.js (an ES module) fails to load, e.g. when
+// opened via file:// - keeps the non-OAuth part of the tool working.
+// startOAuth/disconnectOAuth get replaced with the real versions on success.
+function getAccessToken() {
+    return sessionStorage.getItem("oauth_access_token") || "";
+}
+
+function startOAuth() {
+    const errDiv = document.getElementById("errors");
+    errDiv.style.display = "block";
+    errDiv.textContent = "Sorry, connecting to Mastodon isn't available right now. You can still use the tool without logging in.";
+}
+
+function disconnectOAuth() {}
+
