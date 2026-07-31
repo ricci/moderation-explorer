@@ -9,6 +9,21 @@
     <meta name="author" content="Robert Ricci">
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https:; font-src 'self'; connect-src 'self' https:; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
 
+    <link rel="icon" type="image/svg+xml" href="img/timeline.svg">
+
+    <!-- Link previews (Open Graph). No og:url needed: crawlers fall back to
+         the URL they fetched, so nothing here has to hardcode the domain.
+         og:image is relative for the same reason; Mastodon/Discord/Slack
+         resolve it against the fetched page URL. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Who Moderates My Posts and Timeline?">
+    <meta property="og:title" content="Who Moderates My Posts and Timeline?">
+    <meta property="og:description" content="A tool giving Mastodon users visibility into how federated moderation applies to them">
+    <meta property="og:image" content="img/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="A timeline icon with colored dots and arrows, on a dark purple background.">
+
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/control.css">
 
@@ -21,7 +36,7 @@
 
 <body>
   
-    <h1>Who Moderates My Posts and Timeline?</h1>
+    <h1><img src="img/timeline.svg" alt="Timeline"> Who Moderates My Posts and Timeline?</h1>
 
     <div class="overview">
         <p>
