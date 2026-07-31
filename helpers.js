@@ -93,3 +93,11 @@ function startOAuth() {
 
 function disconnectOAuth() {}
 
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("submit").addEventListener("click", () =>
+        populatePage(document.getElementById("username").value, getAccessToken()));
+    document.getElementById("advancedToggle").addEventListener("click", () => toggleAdvanced());
+    document.getElementById("oauthConnect").addEventListener("click", () => startOAuth());
+    document.getElementById("oauthDisconnect").addEventListener("click", () => disconnectOAuth());
+});
+

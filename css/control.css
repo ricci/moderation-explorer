@@ -2,6 +2,20 @@ p {
     color: #ddd;
 }
 
+.hidden {
+    display: none;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+div.noscript-warning {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
 div#errors {
   margin-top: 10pt;
   color: #e83333;
